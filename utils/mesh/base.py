@@ -7,9 +7,10 @@ from constants import Width, Height, Zoffset
 class Mesh:
     def __init__(self):
         self.triangles = []
+        self.color = (255, 255, 255)
         self.transform = identity()
 
-    def update(self, camera, screen, Fill=True, wireframe=False):
+    def update(self, camera, light, screen, Fill=True, wireframe=True, wireframeColor=(255, 255,255)):
         #colors = [(255, 0,0 ), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255)
         #         ,(255, 0, 255), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255),
         #          (255, 0, 255),  (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255), (255, 0, 255)]
@@ -34,6 +35,10 @@ class Mesh:
 
             d = dotProduct( temp, normal)
             if d < 0.0:
+                # directional light -> illumination
+                _light = round(dotProduct(light.direction, normal), 2)
+                projected.color = triangle.Shade(_light)
+
                 # project to 2D screen
                 projected.vertex1 = multiplyMatrixVector(transformed.vertex1 , ProjectionMatrix(camera))
                 projected.vertex2 = multiplyMatrixVector(transformed.vertex2, ProjectionMatrix(camera))
@@ -51,4 +56,4 @@ class Mesh:
                 projected.vertex2 = half_v2 * Vector3(Width, Height, 1)
                 projected.vertex3 = half_v3 * Vector3(Width, Height, 1)
 
-                DrawTriangle(screen, projected, Fill, wireframe)
+                DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)

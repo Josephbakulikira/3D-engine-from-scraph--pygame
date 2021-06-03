@@ -1,9 +1,29 @@
+from math import floor
 class Triangle:
-    def __init__(self, v1=None, v2=None, v3=None):
+    def __init__(self, v1=None, v2=None, v3=None, color=(255, 255, 255)):
         self.vertex1 = v1
         self.vertex2 = v2
         self.vertex3 = v3
-        self.color = (255, 255, 255)
+        self.color = color
+
+    def Shade(self, val):
+        r, g, b = 0, 0, 0
+        if self.color[0] * val > 255:
+            r = 255
+        else:
+            r = int(self.color[0] * val)
+
+        if self.color[1] * val > 255:
+            g = 255
+        else:
+            g = int(self.color[1] * val)
+
+        if self.color[2] * val > 255:
+            b = 255
+        else:
+            b = int(self.color[2] * val)
+
+        return (r, g, b)
 
     def GetPolygons(self):
         return [(int(self.vertex1.x), int(self.vertex1.y)),
