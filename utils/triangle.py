@@ -10,16 +10,22 @@ class Triangle:
         r, g, b = 0, 0, 0
         if self.color[0] * val > 255:
             r = 255
+        elif self.color[0] * val < 0:
+            r = 0
         else:
             r = int(self.color[0] * val)
 
         if self.color[1] * val > 255:
             g = 255
+        elif self.color[1] * val < 0:
+            g = 0
         else:
             g = int(self.color[1] * val)
 
         if self.color[2] * val > 255:
             b = 255
+        elif self.color[2] * val < 0:
+            b = 0
         else:
             b = int(self.color[2] * val)
 

@@ -8,11 +8,17 @@ from utils.light import Light
 from utils.mesh.base import Mesh
 from utils.mesh.meshes import CubeTriangles
 from utils.matrix import *
+from utils.tools import *
+from math import pi
 
 screen = pygame.display.set_mode(Size)
 clock = pygame.time.Clock()
 fps = 60
 
+DeerMesh = LoadMesh("./assets/deer.obj", (12, 200, 51))
+Deer = Mesh()
+Deer.color = (12, 200, 51)
+Deer.triangles = DeerMesh
 cube = Mesh()
 cube.color = (222, 182, 25)
 cube.triangles = CubeTriangles(cube.color)
@@ -31,10 +37,12 @@ run = True
 while run:
     screen.fill(BackgroundColor)
     clock.tick(fps)
-    run = HandleEvent()
+    frameRate = clock.get_fps()
+    pygame.display.set_caption(str(frameRate) + " fps")
 
-    cube.transform = matrix_multiplication(RotationY(angle), matrix_multiplication(RotationX(angle), RotationZ(angle)))
-    cube.update(camera, light, screen, True, False)
+    run = HandleEvent()
+    Deer.transform = matrix_multiplication(RotationX(pi), RotationY(angle))
+    Deer.update(camera, light, screen, True, False)
 
     #cube2.update(camera, light, screen, True, True)
     pygame.display.flip()
