@@ -5,7 +5,7 @@ class Scene:
         self.world = world
 
     def update(self, camera, light, screen,
-               fill=True, wireframe=False, vertices=False, depth=False,
+               fill=True, wireframe=False, vertices=False, depth=True,
                radius=8, verticeColor=False,
                wireframeColor=(255, 255, 255), lineWidth=1, ):
 

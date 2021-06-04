@@ -36,7 +36,7 @@ class Mesh:
             temp = transformed.vertex1 - camera.position
 
             d = dotProduct( temp, normal)
-            if d < 0.0 or depth == True:
+            if d < 0.0 or depth == False:
                 # directional light -> illumination
 
                 _light = round(dotProduct(light.direction, normal), 2) if light != None else 1

@@ -68,6 +68,38 @@ def SphereTriangles(color,n_subdivision=10, radius=1):
 
     return meshData
 
+def QuadTriangles(color=(255, 255, 255), size=5):
+    vertices = [
+        Vector3(-size, -size, -size),
+        Vector3(-size, size, -size),
+        Vector3(size, size, -size),
+        Vector3(size, -size, -size)
+    ]
 
-def PlaneTriangles(color, resolution):
-    print("df")
+    return [
+        Triangle(vertices[0], vertices[1], vertices[2], color),
+        Triangle(vertices[0], vertices[2], vertices[3], color)
+    ]
+
+def PlaneTriangles(color=(255, 255, 255), resolution=10, size=2):
+    meshData = []
+    vertices = [[None for i in range(resolution)] for j in range(resolution)]
+
+    for i in range(resolution):
+        for j in range(resolution):
+            x = translate(i, 0, resolution, -size, size)
+            y = translate(j, 0, resolution, -size, size)
+            vertices[i][j] = Vector3(x, 0, y)
+
+    for i in range(resolution):
+        for j in range(resolution):
+            if i + 1 < resolution and j + 1 < resolution:
+                v1 = vertices[i][j]
+                v2 = vertices[i+1][j]
+                v3 = vertices[i][j+1]
+                v4 = vertices [i+1][j+1]
+                meshData.append(Triangle(v1, v2, v3, color))
+                meshData.append(Triangle(v4, v3, v2, color))
+
+
+    return meshData
