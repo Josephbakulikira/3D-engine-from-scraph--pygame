@@ -1,3 +1,4 @@
+import sys
 import pygame
 from constants import *
 from event import HandleEvent
@@ -6,30 +7,26 @@ from utils.vector import Vector3
 from utils.camera import Camera
 from utils.light import Light
 from utils.mesh.base import Mesh
-from utils.mesh.meshes import CubeTriangles
+from utils.mesh.meshes import CubeTriangles, SphereTriangles
 from utils.matrix import *
 from utils.tools import *
+from utils.world import Scene
 from math import pi
 
 screen = pygame.display.set_mode(Size)
 clock = pygame.time.Clock()
 fps = 60
 
-DeerMesh = LoadMesh("./assets/deer.obj", (12, 200, 51))
-Deer = Mesh()
-Deer.color = (12, 200, 51)
-Deer.triangles = DeerMesh
 cube = Mesh()
-cube.color = (222, 182, 25)
-cube.triangles = CubeTriangles(cube.color)
+cube.triangles = CubeTriangles((255, 23, 41))
 
-# cube2 = Mesh()
-# cube2.color = (12, 42, 255)
-# cube2.triangles = CubeTriangles(cube2.color)
-# cube2.transform = translateMatrix(Vector3(2, 5, 0))
+scene = Scene()
+#add object into the world
+scene.world.append(cube)
 
 camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 90.0)
 light = Light(Vector3(0, 0, -1))
+
 
 angle = 0
 
@@ -41,10 +38,13 @@ while run:
     pygame.display.set_caption(str(frameRate) + " fps")
 
     run = HandleEvent()
-    Deer.transform = matrix_multiplication(RotationX(pi), RotationY(angle))
-    Deer.update(camera, light, screen, True, False)
+    #cone.transform =  matrix_multiplication(RotationX(angle), RotationY(angle))
+    cube.transform = matrix_multiplication( matrix_multiplication(RotationX(angle), ScalingMatrix(2)), RotationY(angle) )
+    # Deer.transform = translateMatrix( Vector3(0, 0, -1) )
+    scene.update(camera=camera, light=light, screen=screen, fill=True, wireframe=False, vertices=False, depth=False, radius=5, verticeColor=False)
 
-    #cube2.update(camera, light, screen, True, True)
     pygame.display.flip()
     angle += 0.01
+
 pygame.quit()
+sys.exit()

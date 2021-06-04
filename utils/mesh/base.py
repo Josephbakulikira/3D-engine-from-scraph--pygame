@@ -10,12 +10,14 @@ class Mesh:
         self.color = (255, 255, 255)
         self.transform = identity()
 
-    def update(self, camera, light, screen, Fill=True, wireframe=True, wireframeColor=(255, 255,255)):
+    def update(self, camera, light, depth):
         #colors = [(255, 0,0 ), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255)
         #         ,(255, 0, 255), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255),
         #          (255, 0, 255),  (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255), (255, 0, 255)]
+        tris = []
         for index, triangle in enumerate(self.triangles):
             projected = Triangle()
+            projected.verticeColor = triangle.verticeColor
             transformed = Triangle()
 
             transformed.vertex1 = multiplyMatrixVector(triangle.vertex1 , self.transform)
@@ -34,9 +36,10 @@ class Mesh:
             temp = transformed.vertex1 - camera.position
 
             d = dotProduct( temp, normal)
-            if d < 0.0:
+            if d < 0.0 or depth == True:
                 # directional light -> illumination
-                _light = round(dotProduct(light.direction, normal), 2)
+
+                _light = round(dotProduct(light.direction, normal), 2) if light != None else 1
                 projected.color = triangle.Shade(_light)
 
                 # project to 2D screen
@@ -55,5 +58,7 @@ class Mesh:
                 projected.vertex1 = half_v1 * Vector3(Width, Height, 1)
                 projected.vertex2 = half_v2 * Vector3(Width, Height, 1)
                 projected.vertex3 = half_v3 * Vector3(Width, Height, 1)
+                tris.append(projected)
+                #DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
 
-                DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
+        return tris

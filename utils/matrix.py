@@ -26,9 +26,7 @@ def multiplyMatrixVector(vec, mat):
     m = matrix_multiplication(vec.toMatrix(), mat)
     v = toVector3(m)
     if m[0][3] != 0.0:
-        v.x /= m[0][3]
-        v.y /= m[0][3]
-        v.z /= m[0][3]
+        v = v / m[0][3]
     return v
 
 def ProjectionMatrix(camera):
@@ -73,3 +71,9 @@ def translateMatrix(pos):
             [0, 1, 0, pos.y],
             [0, 0, 1, pos.z],
             [0, 0, 0, 1]]
+
+def Shearing(xy, xz, yx, yz, zx, zy):
+    return np.array([ [1, xy, xz, 0],
+                      [yx, 1, yz, 0],
+                      [zx, zy, 1, 0],
+                      [0, 0, 0, 1] ])

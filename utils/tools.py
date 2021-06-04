@@ -1,15 +1,28 @@
 import pygame
 from utils.vector import *
 from utils.triangle import Triangle
+import colorsys
 
-def DrawTriangle(screen, triangle, fill, wireframe=True, wireframeColor=(255, 255,255), lineWidth=2):
+def hsv_to_rgb(h, s, v):
+    return tuple(round(i * 255) for i in colorsys.hsv_to_rgb(h, s, v))
+
+def DrawTriangle(screen, triangle, fill, wireframe, vertices, radius, verticeColor, wireframeColor, lineWidth):
+
     if fill == True:
         #print(triangle.color)
         pygame.draw.polygon(screen, triangle.color, triangle.GetPolygons())
+
     if wireframe == True:
         pygame.draw.line(screen, wireframeColor, triangle.vertex1.GetTuple(), triangle.vertex2.GetTuple(), lineWidth)
         pygame.draw.line(screen, wireframeColor, triangle.vertex2.GetTuple(), triangle.vertex3.GetTuple(), lineWidth)
         pygame.draw.line(screen, wireframeColor, triangle.vertex3.GetTuple(), triangle.vertex1.GetTuple(), lineWidth)
+
+    if vertices == True:
+        color = (255, 255 ,255) if verticeColor==False else triangle.verticeColor
+
+        pygame.draw.circle(screen, color, triangle.vertex1.GetTuple(), radius)
+        pygame.draw.circle(screen, color, triangle.vertex2.GetTuple(), radius)
+        pygame.draw.circle(screen, color, triangle.vertex3.GetTuple(), radius)
 
 def LoadMesh(objectPath, color=(255, 255, 255)):
     vert_data = []

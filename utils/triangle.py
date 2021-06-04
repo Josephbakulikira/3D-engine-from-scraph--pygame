@@ -5,6 +5,7 @@ class Triangle:
         self.vertex2 = v2
         self.vertex3 = v3
         self.color = color
+        self.verticeColor = color
 
     def Shade(self, val):
         r, g, b = 0, 0, 0

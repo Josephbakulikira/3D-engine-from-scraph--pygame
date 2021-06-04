@@ -3,4 +3,4 @@ Width, Height = Size
 BackgroundColor = (0, 0, 0)
 aspect = Height/Width #aspect ratio
 
-Zoffset = 3
+Zoffset = 7
