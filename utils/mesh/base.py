@@ -1,4 +1,5 @@
 from utils.matrix import *
+from utils.transform import *
 from utils.vector import Vector3, crossProduct,dotProduct, Normalize
 from utils.triangle import Triangle
 from utils.tools import DrawTriangle
@@ -8,7 +9,7 @@ class Mesh:
     def __init__(self):
         self.triangles = []
         self.color = (255, 255, 255)
-        self.transform = identity()
+        self.transform = identityMatrix()
 
     def update(self, camera, light, depth):
         #colors = [(255, 0,0 ), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255)
@@ -41,6 +42,10 @@ class Mesh:
 
                 _light = round(dotProduct(light.direction, normal), 2) if light != None else 1
                 projected.color = triangle.Shade(_light)
+
+                transformed.vertex1 = multiplyMatrixVector(transformed.vertex1, camera.viewMatrix )
+                transformed.vertex2 = multiplyMatrixVector(transformed.vertex2, camera.viewMatrix )
+                transformed.vertex3 = multiplyMatrixVector(transformed.vertex3, camera.viewMatrix )
 
                 # project to 2D screen
                 projected.vertex1 = multiplyMatrixVector(transformed.vertex1 , ProjectionMatrix(camera))

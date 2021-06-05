@@ -2,7 +2,7 @@ import sys
 import pygame
 from constants import *
 from event import HandleEvent
-
+from utils.transform import *
 from utils.vector import Vector3
 from utils.camera import Camera
 from utils.light import Light
@@ -23,13 +23,24 @@ cube.triangles = CubeTriangles((255, 23, 41))
 plane = Mesh()
 plane.triangles = PlaneTriangles((255, 251, 123), 10)
 
+teapot = Mesh()
+teapot.triangles = LoadMesh("./assets/utahteapot.obj", (41, 120, 142))
+
 scene = Scene()
 #add object into the world
-scene.world.append(plane)
+scene.world.append(cube)
 
+#camera setup
 camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 90.0)
-light = Light(Vector3(0, 0, -1))
+camera.direction = Vector3(0, 0, 1)
+camera.up = Vector3(0, 1, 0)
+camera.target = camera.position + camera.direction
+lookAtMatrix = PointAt(camera.position, camera.target, camera.up)
+viewMatrix = QuickInverse(lookAtMatrix)
 
+camera.viewMatrix = viewMatrix
+#light setup
+light = Light(Vector3(0, 0, -1))
 
 angle = 0
 
@@ -41,11 +52,12 @@ while run:
     pygame.display.set_caption(str(frameRate) + " fps")
 
     run = HandleEvent()
-    plane.transform = matrix_multiplication(RotationX(angle), ScalingMatrix(3))
-    #cone.transform =  matrix_multiplication(RotationX(angle), RotationY(angle))
-    #cube.transform = matrix_multiplication( matrix_multiplication(RotationX(angle), ScalingMatrix(2)), RotationY(angle) )
-    # Deer.transform = translateMatrix( Vector3(0, 0, -1) )
-    scene.update(camera=camera, light=light, screen=screen, fill=False, wireframe=True, vertices=True, depth=False, radius=5, verticeColor=False)
+    teapot.transform = RotationX(pi)
+
+    #cone.transform =  multiplyMatrix(RotationX(angle), RotationY(angle))
+    cube.transform = multiplyMatrix( multiplyMatrix(RotationX(angle), ScalingMatrix(2)), RotationY(angle) )
+    # Deer.transform = multiplyMatrix( Vector3(0, 0, -1) )
+    scene.update(camera=camera, light=light, screen=screen, fill=True, wireframe=False, vertices=False, depth=True, radius=5, verticeColor=False)
 
     pygame.display.flip()
     angle += 0.01

@@ -1,7 +1,7 @@
 from math import pow, sqrt
 
-def toVector3(a):
-    return Vector3(a[0][0], a[0][1], a[0][2])
+def toVector3(matrix):
+    return Vector3(matrix.val[0][0], matrix.val[0][1], matrix.val[0][2])
 
 def crossProduct(a, b):
     x = a.y * b.z - a.z * b.y
@@ -53,6 +53,7 @@ class Vector3:
 
     def toMatrix(self):
         return [[self.x, self.y, self.z, self.w]]
+
 
     def GetTuple(self):
         return (int(self.x), int(self.y))
