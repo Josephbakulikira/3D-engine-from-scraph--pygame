@@ -10,7 +10,7 @@ class Scene:
                wireframeColor=(255, 255, 255), lineWidth=1, ):
         triangles = []
         for ob in self.world:
-            triangles += ob.update(dt, camera, light, depth)
+            triangles += ob.update(screen, dt, camera, light, depth)
 
 
         def Zsort(val):

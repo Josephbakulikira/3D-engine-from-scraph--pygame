@@ -4,17 +4,14 @@ from utils.vector import Vector3, crossProduct,dotProduct, Normalize
 from utils.triangle import Triangle
 from utils.tools import DrawTriangle, TriangleClipped
 from constants import Width, Height, Zoffset, clipping
-
+import pygame
 class Mesh:
     def __init__(self):
         self.triangles = []
         self.color = (255, 255, 255)
         self.transform = identityMatrix()
 
-    def update(self, dt, camera, light, depth):
-        #colors = [(255, 0,0 ), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255)
-        #         ,(255, 0, 255), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255),
-        #          (255, 0, 255),  (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255), (255, 0, 255)]
+    def update(self,screen, dt, camera, light, depth):
         tris = []
         camera.HandleInput(dt)
 
@@ -62,12 +59,14 @@ class Mesh:
                 clipped = 0
                 clippedTriangles = [Triangle() for _ in range(2)]
                 clipped = TriangleClipped(Vector3(0, 0, clipping), Vector3(0, 0, 1), transformed, clippedTriangles)
+
                 for i in range(clipped):
                     #print(clippedTriangles)
                     # project to 2D screen
-                    projected.vertex1 = multiplyMatrixVector(clippedTriangles[i].vertex1 , ProjectionMatrix(camera))
+                    projected.vertex1 = multiplyMatrixVector(clippedTriangles[i].vertex1, ProjectionMatrix(camera))
                     projected.vertex2 = multiplyMatrixVector(clippedTriangles[i].vertex2, ProjectionMatrix(camera))
                     projected.vertex3 = multiplyMatrixVector(clippedTriangles[i].vertex3, ProjectionMatrix(camera))
+
                     projected.color = clippedTriangles[i].color
                     offsetView = Vector3(1, 1, 0)
                     projected.vertex1 = projected.vertex1 + offsetView
@@ -81,6 +80,14 @@ class Mesh:
                     projected.vertex1 = half_v1 * Vector3(Width, Height, 1)
                     projected.vertex2 = half_v2 * Vector3(Width, Height, 1)
                     projected.vertex3 = half_v3 * Vector3(Width, Height, 1)
+                    # if i == 0:
+                    #     pygame.draw.line(screen, projected.color, projected.vertex1.GetTuple(), projected.vertex2.GetTuple(), 4)
+                    #     pygame.draw.line(screen, projected.color, projected.vertex2.GetTuple(), projected.vertex3.GetTuple(), 4)
+                    #     pygame.draw.line(screen, projected.color, projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 4)
+                    #     pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
+                    if i == 0:
+                        # have to fix this part
+                        pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
                     tris.append(projected)
                     #DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
 
