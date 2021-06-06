@@ -51,17 +51,5 @@ class Camera:
             self.yaw += 0.04
 
     def HandleMouseEvent(self, x, y, deltaTime):
-        print(14)
-    #     # if y != 0:
-    #     #     self.yaw -= x * self.rotationSpeed * deltaTime
-    #     # print(self.yaw)
-    #     self.yaw += x * self.rotationSpeed * deltaTime
-    #     self.phi -= y * self.rotationSpeed * deltaTime
-    #     vec = Vector2( self.phi, self.yaw)
-    #     self.rotation = cameraRotation(vec)
-    #     # self.rotation = rotationCam(self.r.x, self.r.y)
-    #     #print(self.r)
-    #
-    # def HandleMouseEvent2(self, x, y):
-    #     self.position.x += x
-    #     self.position.y += y
+        # not finished
+        self.yaw += x
