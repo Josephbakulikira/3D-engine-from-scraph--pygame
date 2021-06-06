@@ -11,7 +11,7 @@ class Mesh:
         self.color = (255, 255, 255)
         self.transform = identityMatrix()
 
-    def update(self,screen, dt, camera, light, depth):
+    def update(self,screen,fill, wireframe, dt, camera, light, depth):
         tris = []
         camera.HandleInput(dt)
 
@@ -85,7 +85,7 @@ class Mesh:
                     #     pygame.draw.line(screen, projected.color, projected.vertex2.GetTuple(), projected.vertex3.GetTuple(), 4)
                     #     pygame.draw.line(screen, projected.color, projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 4)
                     #     pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
-                    if i == 0:
+                    if i == 0 and fill==True:
                         # have to fix this part
                         pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
                     tris.append(projected)
