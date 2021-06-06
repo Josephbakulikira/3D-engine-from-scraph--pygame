@@ -2,8 +2,8 @@ from utils.matrix import *
 from utils.transform import *
 from utils.vector import Vector3, crossProduct,dotProduct, Normalize
 from utils.triangle import Triangle
-from utils.tools import DrawTriangle
-from constants import Width, Height, Zoffset
+from utils.tools import DrawTriangle, TriangleClipped
+from constants import Width, Height, Zoffset, clipping
 
 class Mesh:
     def __init__(self):
@@ -11,11 +11,23 @@ class Mesh:
         self.color = (255, 255, 255)
         self.transform = identityMatrix()
 
-    def update(self, camera, light, depth):
+    def update(self, dt, camera, light, depth):
         #colors = [(255, 0,0 ), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255)
         #         ,(255, 0, 255), (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255),
         #          (255, 0, 255),  (0, 255, 0), (0, 0, 255), (255,255,0), (0, 255, 255), (255, 0, 255)]
         tris = []
+        camera.HandleInput(dt)
+
+        camera.direction = Vector3(0, 0, 1)
+        camera.up = Vector3(0, 1, 0)
+        camera.target = Vector3(0, 0, 1)
+        camera.rotation = RotationY(camera.yaw)
+        camera.direction = multiplyMatrixVector(camera.target , camera.rotation)
+        camera.target = camera.position + camera.direction
+        lookAtMatrix = PointAt(camera.position, camera.target, camera.up)
+        camera.viewMatrix = QuickInverse(lookAtMatrix)
+        camera.target= Vector3(0, 0, 1)
+
         for index, triangle in enumerate(self.triangles):
             projected = Triangle()
             projected.verticeColor = triangle.verticeColor
@@ -40,30 +52,36 @@ class Mesh:
             if d < 0.0 or depth == False:
                 # directional light -> illumination
 
-                _light = round(dotProduct(light.direction, normal), 2) if light != None else 1
-                projected.color = triangle.Shade(_light)
+                _light = max(0.01, dotProduct(light.direction, normal) ) if light != None else 1
+                transformed.color = triangle.Shade(_light)
 
                 transformed.vertex1 = multiplyMatrixVector(transformed.vertex1, camera.viewMatrix )
                 transformed.vertex2 = multiplyMatrixVector(transformed.vertex2, camera.viewMatrix )
                 transformed.vertex3 = multiplyMatrixVector(transformed.vertex3, camera.viewMatrix )
 
-                # project to 2D screen
-                projected.vertex1 = multiplyMatrixVector(transformed.vertex1 , ProjectionMatrix(camera))
-                projected.vertex2 = multiplyMatrixVector(transformed.vertex2, ProjectionMatrix(camera))
-                projected.vertex3 = multiplyMatrixVector(transformed.vertex3, ProjectionMatrix(camera))
+                clipped = 0
+                clippedTriangles = [Triangle() for _ in range(2)]
+                clipped = TriangleClipped(Vector3(0, 0, clipping), Vector3(0, 0, 1), transformed, clippedTriangles)
+                for i in range(clipped):
+                    #print(clippedTriangles)
+                    # project to 2D screen
+                    projected.vertex1 = multiplyMatrixVector(clippedTriangles[i].vertex1 , ProjectionMatrix(camera))
+                    projected.vertex2 = multiplyMatrixVector(clippedTriangles[i].vertex2, ProjectionMatrix(camera))
+                    projected.vertex3 = multiplyMatrixVector(clippedTriangles[i].vertex3, ProjectionMatrix(camera))
+                    projected.color = clippedTriangles[i].color
+                    offsetView = Vector3(1, 1, 0)
+                    projected.vertex1 = projected.vertex1 + offsetView
+                    projected.vertex2 = projected.vertex2 + offsetView
+                    projected.vertex3 = projected.vertex3 + offsetView
 
-                projected.vertex1 = projected.vertex1 + 1
-                projected.vertex2 = projected.vertex2 + 1
-                projected.vertex3 = projected.vertex3 + 1
+                    half_v1 = projected.vertex1 / 2
+                    half_v2 = projected.vertex2 / 2
+                    half_v3 = projected.vertex3 / 2
 
-                half_v1 = projected.vertex1 / 2
-                half_v2 = projected.vertex2 / 2
-                half_v3 = projected.vertex3 / 2
-
-                projected.vertex1 = half_v1 * Vector3(Width, Height, 1)
-                projected.vertex2 = half_v2 * Vector3(Width, Height, 1)
-                projected.vertex3 = half_v3 * Vector3(Width, Height, 1)
-                tris.append(projected)
-                #DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
+                    projected.vertex1 = half_v1 * Vector3(Width, Height, 1)
+                    projected.vertex2 = half_v2 * Vector3(Width, Height, 1)
+                    projected.vertex3 = half_v3 * Vector3(Width, Height, 1)
+                    tris.append(projected)
+                    #DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
 
         return tris

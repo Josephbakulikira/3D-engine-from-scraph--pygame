@@ -39,4 +39,4 @@ class Triangle:
 
     def __repr__(self):
         #debug
-        return f"triangle-> {(self.vertex1), (self.vertex2), (self.vertex3)}"
+        return f"triangle-> {(self.vertex1), (self.vertex2), (self.vertex3), {self.color}}"

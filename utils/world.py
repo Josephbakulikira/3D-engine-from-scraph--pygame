@@ -4,14 +4,13 @@ class Scene:
     def __init__(self, world=[]):
         self.world = world
 
-    def update(self, camera, light, screen,
+    def update(self, dt, camera, light, screen,
                fill=True, wireframe=False, vertices=False, depth=True,
                radius=8, verticeColor=False,
                wireframeColor=(255, 255, 255), lineWidth=1, ):
-
         triangles = []
         for ob in self.world:
-            triangles += ob.update(camera, light, depth)
+            triangles += ob.update(dt, camera, light, depth)
 
 
         def Zsort(val):
