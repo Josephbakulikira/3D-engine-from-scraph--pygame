@@ -8,6 +8,7 @@ from utils.camera import Camera
 from utils.light import Light
 from utils.mesh.base import Mesh
 from utils.mesh.meshes import *
+from utils.mesh.spheres import *
 from utils.matrix import *
 from utils.tools import *
 from utils.world import Scene
@@ -27,17 +28,21 @@ Deer = Mesh()
 Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
 
 cube = Mesh()
-cube.triangles = CubeTriangles((190, 42, 23))
+cube.triangles = CubeTriangles((0, 142, 123))
+
+sphere = Mesh()
+sphere.triangles = SphereTriangles((23, 123, 213))
 
 scene = Scene()
 #add object into the world
 scene.world.append(cube)
+
 #camera setup
 camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 90.0)
 camera.speed = 0.5
 camera.rotationSpeed = 0.8
 #light setup
-light = Light(Vector3(0, 0.5, 0))
+light = Light(Vector3(0, 0, -1))
 
 angle = 0
 
@@ -56,8 +61,8 @@ while run:
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,
-                fill=True, wireframe=False, vertices=False, depth=True,
-                radius=5, verticeColor=False)
+                fill=True, wireframe=True, vertices=False, depth=True,
+                showNormals=False, radius=3, verticeColor=False)
 
     pygame.display.flip()
     angle += 0.01

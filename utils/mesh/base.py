@@ -5,6 +5,7 @@ from utils.triangle import Triangle
 from utils.tools import DrawTriangle, TriangleClipped
 from constants import Width, Height, Zoffset, clipping
 import pygame
+
 class Mesh:
     def __init__(self):
         self.triangles = []
@@ -13,6 +14,7 @@ class Mesh:
 
     def update(self,screen, fill, wireframe, dt, camera, light, depth):
         tris = []
+        normals = []
         camera.HandleInput(dt)
 
         camera.direction = Vector3(0, 0, 1)
@@ -29,7 +31,6 @@ class Mesh:
             projected = Triangle()
             projected.verticeColor = triangle.verticeColor
             transformed = Triangle()
-
             transformed.vertex1 = multiplyMatrixVector(triangle.vertex1 , self.transform)
             transformed.vertex2 = multiplyMatrixVector(triangle.vertex2 , self.transform)
             transformed.vertex3 = multiplyMatrixVector(triangle.vertex3 , self.transform)
@@ -48,7 +49,7 @@ class Mesh:
             d = dotProduct( temp, normal)
             if d < 0.0 or depth == False:
                 # directional light -> illumination
-                dim = 0.1
+                dim = 0.0001
                 _light = max(dim, dotProduct(light.direction, normal) ) if light != None else 1
                 transformed.color = triangle.Shade(_light)
 
@@ -73,8 +74,6 @@ class Mesh:
                     projected.vertex2 *= Vector3(-1, -1, 1)
                     projected.vertex3 *= Vector3(-1, -1, 1)
 
-
-
                     offsetView = Vector3(1, 1, 0)
                     projected.vertex1 = projected.vertex1 + offsetView
                     projected.vertex2 = projected.vertex2 + offsetView
@@ -90,12 +89,14 @@ class Mesh:
                     if i == 0 and wireframe == True:
                         pygame.draw.line(screen, (255, 255,255), projected.vertex1.GetTuple(), projected.vertex2.GetTuple(), 1)
                         pygame.draw.line(screen, (255, 255,255), projected.vertex2.GetTuple(), projected.vertex3.GetTuple(), 1)
-                        pygame.draw.line(screen, (0, 255,255), projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 5)
+                        pygame.draw.line(screen, (255, 255,255), projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 5)
                         #pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
                     if i == 0 and fill==True:
                         # have to fix this part
                         pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
+
+                    normals.append(normal)
                     tris.append(projected)
                     #DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
 
-        return tris
+        return tris,normals
