@@ -1,4 +1,5 @@
 from math import floor
+
 class Triangle:
     def __init__(self, v1=None, v2=None, v3=None, color=(255, 255, 255)):
         self.vertex1 = v1

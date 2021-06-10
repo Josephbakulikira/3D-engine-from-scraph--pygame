@@ -71,9 +71,9 @@ def identityMatrix():
 def translateMatrix(pos):
     matrix = Matrix()
     matrix.val = [[1, 0.0, 0.0, pos.x],
-            [0.0, 1, 0.0, pos.y],
-            [0.0, 0.0, 1, pos.z],
-            [0.0, 0.0, 0.0, 1]]
+                [0.0, 1, 0.0, pos.y],
+                [0.0, 0.0, 1, pos.z],
+                [0.0, 0.0, 0.0, 1]]
     return matrix
 
 def Shearing(xy, xz, yx, yz, zx, zy):

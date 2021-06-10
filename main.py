@@ -22,19 +22,22 @@ pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
 a = pygame.event.set_grab(False)
 
+
+Deer = Mesh()
+Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
+
 cube = Mesh()
-cube.triangles = CubeTriangles((255, 23, 41))
+cube.triangles = CubeTriangles((190, 42, 23))
 
 scene = Scene()
 #add object into the world
 scene.world.append(cube)
-
 #camera setup
-camera = Camera(Vector3(0, 1, 0),0.1, 1000.0, 90.0)
+camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 90.0)
 camera.speed = 0.5
 camera.rotationSpeed = 0.8
 #light setup
-light = Light(Vector3(0, 1, -1))
+light = Light(Vector3(0, 0.5, 0))
 
 angle = 0
 
@@ -48,10 +51,12 @@ while run:
 
     run = HandleEvent(camera, dt)
 
-    cube.transform = multiplyMatrix( multiplyMatrix( multiplyMatrix(RotationX(angle), ScalingMatrix(1.5)), RotationY(angle)), RotationZ(angle))
 
+    cube.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(2)), RotationX(angle))
+
+    # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,
-                fill=True, wireframe=True, vertices=False, depth=True,
+                fill=True, wireframe=False, vertices=False, depth=True,
                 radius=5, verticeColor=False)
 
     pygame.display.flip()

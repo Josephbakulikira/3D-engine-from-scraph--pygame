@@ -11,7 +11,7 @@ class Mesh:
         self.color = (255, 255, 255)
         self.transform = identityMatrix()
 
-    def update(self,screen,fill, wireframe, dt, camera, light, depth):
+    def update(self,screen, fill, wireframe, dt, camera, light, depth):
         tris = []
         camera.HandleInput(dt)
 
@@ -34,9 +34,9 @@ class Mesh:
             transformed.vertex2 = multiplyMatrixVector(triangle.vertex2 , self.transform)
             transformed.vertex3 = multiplyMatrixVector(triangle.vertex3 , self.transform)
 
-            transformed.vertex1 = transformed.vertex1 + Vector3(0, 0, Zoffset)
-            transformed.vertex2 = transformed.vertex2 + Vector3(0, 0, Zoffset)
-            transformed.vertex3 = transformed.vertex3 + Vector3(0, 0, Zoffset)
+            transformed.vertex1 += Vector3(0, 0, Zoffset)
+            transformed.vertex2 += Vector3(0, 0, Zoffset)
+            transformed.vertex3 += Vector3(0, 0, Zoffset)
 
             # get the normal vector
             line1 = transformed.vertex2 - transformed.vertex1
@@ -48,8 +48,8 @@ class Mesh:
             d = dotProduct( temp, normal)
             if d < 0.0 or depth == False:
                 # directional light -> illumination
-
-                _light = max(0.01, dotProduct(light.direction, normal) ) if light != None else 1
+                dim = 0.1
+                _light = max(dim, dotProduct(light.direction, normal) ) if light != None else 1
                 transformed.color = triangle.Shade(_light)
 
                 transformed.vertex1 = multiplyMatrixVector(transformed.vertex1, camera.viewMatrix )
@@ -68,23 +68,30 @@ class Mesh:
                     projected.vertex3 = multiplyMatrixVector(clippedTriangles[i].vertex3, ProjectionMatrix(camera))
 
                     projected.color = clippedTriangles[i].color
+                    # fix the inverted x and y
+                    projected.vertex1 *= Vector3(-1, -1, 1)
+                    projected.vertex2 *= Vector3(-1, -1, 1)
+                    projected.vertex3 *= Vector3(-1, -1, 1)
+
+
+
                     offsetView = Vector3(1, 1, 0)
                     projected.vertex1 = projected.vertex1 + offsetView
                     projected.vertex2 = projected.vertex2 + offsetView
                     projected.vertex3 = projected.vertex3 + offsetView
 
-                    half_v1 = projected.vertex1 / 2
-                    half_v2 = projected.vertex2 / 2
-                    half_v3 = projected.vertex3 / 2
+                    # half_v1 = projected.vertex1 / 2
+                    # half_v2 = projected.vertex2 / 2
+                    # half_v3 = projected.vertex3 / 2
 
-                    projected.vertex1 = half_v1 * Vector3(Width, Height, 1)
-                    projected.vertex2 = half_v2 * Vector3(Width, Height, 1)
-                    projected.vertex3 = half_v3 * Vector3(Width, Height, 1)
-                    # if i == 0:
-                    #     pygame.draw.line(screen, projected.color, projected.vertex1.GetTuple(), projected.vertex2.GetTuple(), 4)
-                    #     pygame.draw.line(screen, projected.color, projected.vertex2.GetTuple(), projected.vertex3.GetTuple(), 4)
-                    #     pygame.draw.line(screen, projected.color, projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 4)
-                    #     pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
+                    projected.vertex1 *= Vector3(Width, Height, 1) * 0.5
+                    projected.vertex2 *= Vector3(Width, Height, 1) * 0.5
+                    projected.vertex3 *= Vector3(Width, Height, 1) * 0.5
+                    if i == 0 and wireframe == True:
+                        pygame.draw.line(screen, (255, 255,255), projected.vertex1.GetTuple(), projected.vertex2.GetTuple(), 1)
+                        pygame.draw.line(screen, (255, 255,255), projected.vertex2.GetTuple(), projected.vertex3.GetTuple(), 1)
+                        pygame.draw.line(screen, (0, 255,255), projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 5)
+                        #pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
                     if i == 0 and fill==True:
                         # have to fix this part
                         pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
