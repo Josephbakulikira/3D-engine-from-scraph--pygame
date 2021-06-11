@@ -31,11 +31,11 @@ cube = Mesh()
 cube.triangles = CubeTriangles((0, 142, 123))
 
 sphere = Mesh()
-sphere.triangles = SphereTriangles((23, 123, 213))
+sphere.triangles = IcosphereTriangles((23, 123, 213), 2)
 
 scene = Scene()
 #add object into the world
-scene.world.append(cube)
+scene.world.append(sphere)
 
 #camera setup
 camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 90.0)
@@ -56,12 +56,11 @@ while run:
 
     run = HandleEvent(camera, dt)
 
-
-    cube.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(2)), RotationX(angle))
+    sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(3)), RotationX(angle))
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,
-                fill=True, wireframe=True, vertices=False, depth=True,
+                fill=True, wireframe=False, vertices=False, depth=True,
                 showNormals=False, radius=3, verticeColor=False)
 
     pygame.display.flip()

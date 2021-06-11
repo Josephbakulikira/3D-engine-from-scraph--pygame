@@ -1,7 +1,7 @@
 from utils.mesh.base import Mesh
 from utils.triangle import Triangle
-from utils.vector import Vector3, Vector2
-from math import sin, cos, pi
+from utils.vector import Vector3, Vector2, Normalize
+from math import sin, cos, pi, sqrt
 
 def SphereTriangles(color,n_subdivision=10, radius=1):
     #simple UV SPHERE
@@ -44,52 +44,96 @@ def SphereTriangles(color,n_subdivision=10, radius=1):
 
     return meshData
 
-# Not finished
-# def IcosphereTriangles(color=(), subdivision=10, radius=1):
-#     meshData = []
-#     vertices = []
-#
-#     g = (1 + sqrt(5))/2
-#
-#     initialVertices = [
-#         Vector3(-1,  g, 0),
-#         Vector3( 1,  g, 0),
-#         Vector3(-1, -g, 0),
-#         Vector3( 1, -g, 0),
-#
-#         Vector3( 0, -1,  g),
-#         Vector3( 0,  1,  g),
-#         Vector3( 0, -1, -g),
-#         Vector3( 0,  1, -g),
-#
-#         Vector3( g,  0,  -1),
-#         Vector3( g,  0,  1),
-#         Vector3( -g,  0,  -1),
-#         Vector3( -g,  0,  1)
-#     ]
-#     initialIndices = [
-#          # 5 faces around point 0
-#          [0, 11, 5],
-#          [0, 5, 1],
-#          [0, 1, 7],
-#          [0, 7, 10],
-#          [0, 10, 11],
-#          # Adjacent faces
-#          [1, 5, 9],
-#          [5, 11, 4],
-#          [11, 10, 2],
-#          [10, 7, 6],
-#          [7, 1, 8],
-#          # 5 faces around 3
-#          [3, 9, 4],
-#          [3, 4, 2],
-#          [3, 2, 6],
-#          [3, 6, 8],
-#          [3, 8, 9],
-#          # Adjacent faces
-#          [4, 9, 5],
-#          [2, 4, 11],
-#          [6, 2, 10],
-#          [8, 6, 7],
-#          [9, 8, 1]
-#     ]
+def GetMiddlePoint(vec1, vec2, vertices, middlePointCache):
+    a = vertices.index(vec1)
+    b = vertices.index(vec2)
+
+    # check if the edge is already divided to avoid duplicated vertices
+    smallerIndex, greaterIndex = b, a
+    if a < b:
+        smallerIndex = a
+        greaterIndex = b
+    key = f"{smallerIndex}, {greaterIndex}"
+
+    if key in middlePointCache:
+        return middlePointCache[key]
+
+    vertex1 = vertices[a]
+    vertex2 = vertices[b]
+
+    middle = Normalize( (vertex1+vertex2)/2 )
+    vertices.append(middle)
+
+    _index = vertices.index(middle)
+    middlePointCache.update({key: _index})
+
+    return _index
+
+def IcosphereTriangles(color=(255, 255, 255), subdivision=0, radius=1):
+    meshData = []
+    middlePointCache = {}
+    g = (1 + sqrt(5))/2
+
+    vertices = [
+        Normalize(Vector3(-1,  g, 0)),
+        Normalize(Vector3( 1,  g, 0)),
+        Normalize(Vector3(-1, -g, 0)),
+        Normalize(Vector3( 1, -g, 0)),
+
+        Normalize(Vector3( 0, -1,  g)),
+        Normalize(Vector3( 0,  1,  g)),
+        Normalize(Vector3( 0, -1, -g)),
+        Normalize(Vector3( 0,  1, -g)),
+
+        Normalize(Vector3( g,  0,  -1)),
+        Normalize(Vector3( g,  0,  1)),
+        Normalize(Vector3( -g,  0,  -1)),
+        Normalize(Vector3( -g,  0,  1))
+    ]
+    triangles = [
+         # 5 faces around point 0
+         Triangle(vertices[0], vertices[11], vertices[5], color),
+         Triangle(vertices[0], vertices[5], vertices[1], color),
+         Triangle(vertices[0], vertices[1], vertices[7], color),
+         Triangle(vertices[0], vertices[7], vertices[10], color),
+         Triangle(vertices[0], vertices[10], vertices[11], color),
+         # Adjacent faces
+         Triangle(vertices[1], vertices[5], vertices[9], color),
+         Triangle(vertices[5], vertices[11], vertices[4], color),
+         Triangle(vertices[11], vertices[10], vertices[2], color),
+         Triangle(vertices[10], vertices[7], vertices[6], color),
+         Triangle(vertices[7], vertices[1], vertices[8], color),
+         # 5 faces around 3
+         Triangle(vertices[3], vertices[9], vertices[4], color),
+         Triangle(vertices[3], vertices[4], vertices[2], color),
+         Triangle(vertices[3], vertices[2], vertices[6], color),
+         Triangle(vertices[3], vertices[6], vertices[8], color),
+         Triangle(vertices[3], vertices[8], vertices[9], color),
+         # Adjacent faces
+         Triangle(vertices[4], vertices[9], vertices[5], color),
+         Triangle(vertices[2], vertices[4], vertices[11], color),
+         Triangle(vertices[6], vertices[2], vertices[10], color),
+         Triangle(vertices[8], vertices[6], vertices[7], color),
+         Triangle(vertices[9], vertices[8], vertices[1], color)
+    ]
+
+    # subdivision
+    for i in range(subdivision):
+        subdivisions = []
+        for triangle in triangles:
+            _i0 = GetMiddlePoint(triangle.vertex1, triangle.vertex2, vertices, middlePointCache)
+            _i1 = GetMiddlePoint(triangle.vertex2, triangle.vertex3, vertices, middlePointCache)
+            _i2 = GetMiddlePoint(triangle.vertex3, triangle.vertex1, vertices, middlePointCache)
+
+            vertex1 = vertices[_i0]
+            vertex2 = vertices[_i1]
+            vertex3 = vertices[_i2]
+
+            subdivisions.append(Triangle(triangle.vertex1, vertex1, vertex3, color))
+            subdivisions.append(Triangle(triangle.vertex2, vertex2, vertex1, color))
+            subdivisions.append(Triangle(triangle.vertex3, vertex3, vertex2, color))
+            subdivisions.append(Triangle(vertex1, vertex2, vertex3, color))
+
+        triangles = subdivisions
+    #print(triangles)
+    return triangles

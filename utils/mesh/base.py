@@ -89,7 +89,7 @@ class Mesh:
                     if i == 0 and wireframe == True:
                         pygame.draw.line(screen, (255, 255,255), projected.vertex1.GetTuple(), projected.vertex2.GetTuple(), 1)
                         pygame.draw.line(screen, (255, 255,255), projected.vertex2.GetTuple(), projected.vertex3.GetTuple(), 1)
-                        pygame.draw.line(screen, (255, 255,255), projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 5)
+                        pygame.draw.line(screen, (255, 255,255), projected.vertex3.GetTuple(), projected.vertex1.GetTuple(), 1)
                         #pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
                     if i == 0 and fill==True:
                         # have to fix this part
