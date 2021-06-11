@@ -9,7 +9,7 @@
     - still need some optimization to run faster ( maybe using numpy matrices can help a little bit)
 
 ---
-## support obj files although the zsorting isn't working properly
+### support obj files although the zsorting isn't working properly
 ![DeerGIF](https://user-images.githubusercontent.com/48150537/121646510-06faf980-cab3-11eb-9edf-b26271163645.gif)
 ---
 ### directional lighting
