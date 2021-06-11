@@ -21,9 +21,7 @@
               light = Light(position)
               # to disable the light in the scene you can set the light = None
                light = None
-![icosphereGIG](https://user-images.githubusercontent.com/48150537/121646963-7cff6080-cab3-11eb-9341-cb007f568611.gif)
-![cube](https://user-images.githubusercontent.com/48150537/121646975-7ec92400-cab3-11eb-8d73-f5eebe130b62.gif)
-
+ ![Directional LightGIF](https://user-images.githubusercontent.com/48150537/121668156-a5de2080-cac8-11eb-9efa-9d5e8bf80428.gif)
 
 ---
 ### Display normals:
@@ -44,7 +42,8 @@
 ![wireframe](https://user-images.githubusercontent.com/48150537/121646751-41649680-cab3-11eb-8a56-8ee20a5c08ab.gif)
 
 
-
+![icosphereGIG](https://user-images.githubusercontent.com/48150537/121646963-7cff6080-cab3-11eb-9341-cb007f568611.gif)
+![cube](https://user-images.githubusercontent.com/48150537/121646975-7ec92400-cab3-11eb-8d73-f5eebe130b62.gif)
 ---
 # Enjoy✌
 #### subscribe to my youtube
