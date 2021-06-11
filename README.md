@@ -1,6 +1,6 @@
 # 3D ENGINE WITH PYTHON FROM SCRATCH 
 
- Youtube Channel: https://www.youtube.com/c/Auctux [<img align="left" alt="auctux | YouTube" style="color: red" width="26px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/youtube.svg" />]
+ Youtube Channel: https://www.youtube.com/c/Auctux [<img align="left" alt="auctux | YouTube" style="color: 'red'" width="26px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/youtube.svg" />]
 
 
 ---
