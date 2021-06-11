@@ -46,10 +46,13 @@ scene.world.append(sphere)
 camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 90.0)
 camera.speed = 0.5
 camera.rotationSpeed = 0.8
+
 #light setup
-light = Light(Vector3(0, 0, -1))
+light = Light(Vector3(0.9, 0.9, -1))
 
 angle = 0
+
+moveLight = True
 
 run = True
 while run:
@@ -60,6 +63,13 @@ while run:
     pygame.display.set_caption(str(frameRate) + " fps")
 
     run = HandleEvent(camera, dt)
+
+    
+    if moveLight == True and light != None:
+        mx, my = pygame.mouse.get_pos()
+        _x = translateValue( mx, 0,  Width,  -1,  1)
+        _y = translateValue( my, 0, Height, -1, 1)
+        light = Light(Vector3(-_x, -_y, -1))
 
     sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(3)), RotationX(angle))
 

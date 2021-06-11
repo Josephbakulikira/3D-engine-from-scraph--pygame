@@ -53,6 +53,9 @@ def LoadMesh(objectPath, color=(255, 255, 255)):
         meshData.append(triangle)
     return meshData
 
+def translateValue(value, min1, max1, min2, max2):
+    return min2 + (max2 - min2)* ((value-min1)/(max1-min1))
+
 def SignedDist(pos, normal, p):
     n = Normalize(pos)
     return (normal.x * pos.x + normal.y * pos.y + normal.z * pos.z - dotProduct(normal, p))
