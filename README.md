@@ -1,4 +1,4 @@
-# Pygame-3D-engine--Graphic with python (pygame) from scratch
+# 3D ENGINE WITH PYTHON FROM SCRATCH 
 
 ---
 ### installation
