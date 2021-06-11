@@ -1,5 +1,7 @@
 # 3D ENGINE WITH PYTHON FROM SCRATCH 
 
+[<img align="left" alt="auctux | YouTube" width="26px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/youtube.svg" />][youtube]
+
 ---
 ### installation
               pip install pygame
@@ -38,5 +40,10 @@
 ### wireframe Mode
               wireframe = True
 ![wireframe](https://user-images.githubusercontent.com/48150537/121646751-41649680-cab3-11eb-8a56-8ee20a5c08ab.gif)
+
+
+### Enjoy✌
+
+[youtube]: https://www.youtube.com/channel/UCjPk9YDheKst1FlAf_KSpyA
 
 
