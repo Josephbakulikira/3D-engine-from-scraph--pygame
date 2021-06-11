@@ -1,3 +1,6 @@
+# subscribe to my youtube
+# https://www.youtube.com/c/Auctux
+
 import sys
 import pygame
 from constants import *
@@ -27,13 +30,13 @@ Deer = Mesh()
 Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
 
 cube = Mesh()
-cube.triangles = CubeTriangles((0, 142, 123))
+cube.triangles = CubeTriangles(blue)
 
 sphere = Mesh()
-sphere.triangles = IcosphereTriangles((23, 123, 213), 2)
+sphere.triangles = IcosphereTriangles(orange, 2)
 
-sphere2 = Mesh()
-sphere2.triangles = SphereTriangles((255, 255, 255), 20)
+# sphere2 = Mesh()
+# sphere2.triangles = SphereTriangles((255, 255, 255), 20)
 
 scene = Scene()
 #add object into the world
@@ -58,7 +61,7 @@ while run:
 
     run = HandleEvent(camera, dt)
 
-    sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(4)), RotationX(angle))
+    sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(3)), RotationX(angle))
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,
