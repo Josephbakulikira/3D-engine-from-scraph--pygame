@@ -36,12 +36,13 @@
         that are in front of the camera.
 ![clippingGIF](https://user-images.githubusercontent.com/48150537/121647190-bfc13880-cab3-11eb-8ee7-c0ee61f47849.gif)
 
-
+---
 ### Wireframe Mode
               wireframe = True
 ![wireframe](https://user-images.githubusercontent.com/48150537/121646751-41649680-cab3-11eb-8a56-8ee20a5c08ab.gif)
 
 
+---
 ![icosphereGIG](https://user-images.githubusercontent.com/48150537/121646963-7cff6080-cab3-11eb-9341-cb007f568611.gif)
 ![cube](https://user-images.githubusercontent.com/48150537/121646975-7ec92400-cab3-11eb-8d73-f5eebe130b62.gif)
 ---
