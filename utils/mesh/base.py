@@ -95,8 +95,7 @@ class Mesh:
                         # have to fix this part
                         pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
 
-                    normals.append(normal)
                     tris.append(projected)
                     #DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
 
-        return tris,normals
+        return tris

@@ -1,7 +1,7 @@
 from utils.mesh.base import Mesh
 from utils.triangle import Triangle
 from utils.vector import Vector3, Vector2, Normalize
-from math import sin, cos, pi, sqrt
+from math import sin, cos, pi, sqrt, acos
 
 def SphereTriangles(color,n_subdivision=10, radius=1):
     #simple UV SPHERE
@@ -70,9 +70,8 @@ def GetMiddlePoint(vec1, vec2, vertices, middlePointCache):
     return _index
 
 def IcosphereTriangles(color=(255, 255, 255), subdivision=0, radius=1):
-    meshData = []
     middlePointCache = {}
-    g = (1 + sqrt(5))/2
+    g = (1 + sqrt(5))/2 #golden ratio
 
     vertices = [
         Normalize(Vector3(-1,  g, 0)),
@@ -136,4 +135,25 @@ def IcosphereTriangles(color=(255, 255, 255), subdivision=0, radius=1):
 
         triangles = subdivisions
     #print(triangles)
+    return triangles
+
+def FibSphereTriangles(color=(255, 255, 255), n=50):
+    triangles = []
+    vertices = []
+    # golden ratio
+    g = (1 + sqrt(5))/2
+    for i in range(n):
+        theta = 2 * pi * i/g
+        phi = acos(1-2*(i+0.5)/n)
+        x = cos(theta) * sin(phi)
+        y = sin(theta) * sin(phi)
+        z = cos(phi)
+        vertices.append(Vector3(x, y, z))
+
+    for i in range(len(vertices)-3):
+        vertex1 = vertices[i]
+        vertex2 = vertices[i+1]
+        vertex3 = vertices[i+2]
+        triangles.append(Triangle(vertex1, vertex2, vertex3, color))
+    print("work in progress")
     return triangles

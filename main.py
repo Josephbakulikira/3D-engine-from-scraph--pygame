@@ -23,7 +23,6 @@ pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
 a = pygame.event.set_grab(False)
 
-
 Deer = Mesh()
 Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
 
@@ -32,6 +31,9 @@ cube.triangles = CubeTriangles((0, 142, 123))
 
 sphere = Mesh()
 sphere.triangles = IcosphereTriangles((23, 123, 213), 2)
+
+sphere2 = Mesh()
+sphere2.triangles = FibSphereTriangles((255, 160, 0), 100)
 
 scene = Scene()
 #add object into the world
@@ -56,12 +58,12 @@ while run:
 
     run = HandleEvent(camera, dt)
 
-    sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(3)), RotationX(angle))
+    sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(4)), RotationX(angle))
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,
-                fill=True, wireframe=False, vertices=False, depth=True,
-                showNormals=False, radius=3, verticeColor=False)
+                fill=True, wireframe=True, vertices=False, depth=True,
+                showNormals=True, radius=4, verticeColor=False, wireframeColor=(0, 223,255))
 
     pygame.display.flip()
     angle += 0.01

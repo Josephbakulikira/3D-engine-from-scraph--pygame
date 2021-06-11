@@ -1,5 +1,5 @@
 from utils.tools import *
-
+from utils.vector import *
 class Scene:
     def __init__(self, world=[]):
         self.world = world
@@ -9,24 +9,29 @@ class Scene:
                radius=8, verticeColor=False,
                wireframeColor=(255, 255, 255), lineWidth=1):
         triangles = []
-        normals = []
         origins = []
         for ob in self.world:
-            tris, nors = ob.update(screen,fill, wireframe, dt, camera, light, depth)
-            triangles += tris
-            normals += nors
+            triangles += ob.update(screen,fill, wireframe, dt, camera, light, depth)
 
         def Zsort(val):
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0
 
-        # print()
         triangles.sort(key=Zsort)
+        normals_length = 80
+        normals = []
         for projected in triangles:
             origin = (projected.vertex1+projected.vertex2+projected.vertex3)/3
+
+            line1 = projected.vertex2 - projected.vertex1
+            line2 = projected.vertex3 - projected.vertex1
+            normal = crossProduct(line1, line2) * normals_length
             DrawTriangle(screen, projected, fill, wireframe,vertices, radius, verticeColor, wireframeColor, lineWidth)
             origins.append(origin)
+            normals.append(normal)
 
-        if showNormals == True:
-            for i,n in enumerate(normals):
-                dest = origins[i]- (n * 50)
-                pygame.draw.line(screen, (0, 255, 0), origins[i].GetTuple(), dest.GetTuple(), 2)
+        if showNormals == True: #---to fix later
+            # get the normal vector
+            for i, n in enumerate(normals):
+                endPoint = origins[i] + (n)
+                #pygame.draw.circle(screen, (0,255, 0), endPoint.GetTuple(), 10)
+                pygame.draw.line(screen, (0, 255, 0), origins[i].GetTuple(), endPoint.GetTuple(), 2)
