@@ -5,11 +5,12 @@
 
 ---
 ### Packages
-              pip install pygame
+             - pip install pygame
 ---
 ### Bugs (unsolved issues)
     - The z sorting of triangles still has some noticeable issues
     - still need some optimization to run faster ( maybe using numpy matrices can help a little bit)
+    - issues with translate matrix , gonna fix it later still trying a couple of things
 
 ---
 ### Support .obj files although the zsorting isn't working properly
