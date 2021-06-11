@@ -33,7 +33,7 @@ sphere = Mesh()
 sphere.triangles = IcosphereTriangles((23, 123, 213), 2)
 
 sphere2 = Mesh()
-sphere2.triangles = FibSphereTriangles((255, 160, 0), 100)
+sphere2.triangles = SphereTriangles((255, 255, 255), 20)
 
 scene = Scene()
 #add object into the world
@@ -62,8 +62,8 @@ while run:
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,
-                fill=True, wireframe=True, vertices=False, depth=True,
-                showNormals=True, radius=4, verticeColor=False, wireframeColor=(0, 223,255))
+                fill=True, wireframe=False, vertices=False, depth=True,
+                showNormals=False, radius=8, verticeColor=False, wireframeColor=(0, 223,255))
 
     pygame.display.flip()
     angle += 0.01

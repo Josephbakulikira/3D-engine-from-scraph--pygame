@@ -137,17 +137,19 @@ def IcosphereTriangles(color=(255, 255, 255), subdivision=0, radius=1):
     #print(triangles)
     return triangles
 
-def FibSphereTriangles(color=(255, 255, 255), n=50):
+def FibonnaciSphereTriangles(color=(255, 255, 255), n=50):
+    #not finished
     triangles = []
     vertices = []
-    # golden ratio
-    g = (1 + sqrt(5))/2
+    # golden ratio in radians
+    g = pi * (3 - sqrt(5))/2
+
     for i in range(n):
-        theta = 2 * pi * i/g
-        phi = acos(1-2*(i+0.5)/n)
-        x = cos(theta) * sin(phi)
-        y = sin(theta) * sin(phi)
-        z = cos(phi)
+        y = 1 - (i / float(n - 1)) * 2  # y goes from 1 to -1
+        radius = sqrt(1 - y * y)  # radius at y
+        theta = g * i  # golden angle increment
+        x = cos(theta) * radius
+        z = sin(theta) * radius
         vertices.append(Vector3(x, y, z))
 
     for i in range(len(vertices)-3):
@@ -155,5 +157,6 @@ def FibSphereTriangles(color=(255, 255, 255), n=50):
         vertex2 = vertices[i+1]
         vertex3 = vertices[i+2]
         triangles.append(Triangle(vertex1, vertex2, vertex3, color))
+
     print("work in progress")
     return triangles
