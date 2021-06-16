@@ -1,5 +1,7 @@
 from utils.tools import *
 from utils.vector import *
+from utils.transform import *
+from utils.matrix import *
 
 class Scene:
     def __init__(self, world=[]):
@@ -9,6 +11,18 @@ class Scene:
                fill=True, wireframe=False, vertices=False, depth=True,showNormals=False,
                radius=8, verticeColor=False,
                wireframeColor=(255, 255, 255), lineWidth=1):
+        camera.HandleInput(dt)
+
+        camera.direction = Vector3(0, 0, 1)
+        camera.up = Vector3(0, 1, 0)
+        camera.target = Vector3(0, 0, 1)
+        camera.rotation = RotationY(camera.yaw)
+        camera.direction = multiplyMatrixVector(camera.target , camera.rotation)
+        camera.target = camera.position + camera.direction
+        lookAtMatrix = PointAt(camera.position, camera.target, camera.up)
+        camera.viewMatrix = QuickInverse(lookAtMatrix)
+        camera.target= Vector3(0, 0, 1)
+
         triangles = []
         origins = []
         for ob in self.world:

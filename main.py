@@ -12,6 +12,7 @@ from utils.light import Light
 from utils.mesh.base import Mesh
 from utils.mesh.meshes import *
 from utils.mesh.spheres import *
+from utils.mesh.point import *
 from utils.matrix import *
 from utils.tools import *
 from utils.world import Scene
@@ -31,20 +32,22 @@ Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
 
 cube = Mesh()
 cube.triangles = CubeTriangles(blue)
-cube.position = Vector3(2, 0, 0)
+cube.position = Vector3(0, 1.6, 0)
+
 sphere = Mesh()
 sphere.triangles = IcosphereTriangles(orange, 2)
-sphere.position = Vector3(-1, 0, 0)
+sphere.position = Vector3(0, -1.6, 0)
 # sphere2 = Mesh()
 # sphere2.triangles = SphereTriangles((255, 255, 255), 20)
 
 scene = Scene()
 #add object into the world
 scene.world.append(sphere)
-#scene.world.append(cube)
+scene.world.append(cube)
+
 
 #camera setup
-camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 70.0)
+camera = Camera(Vector3(0, 2, 0),0.1, 1000.0, 70.0)
 camera.speed = 0.5
 camera.rotationSpeed = 0.8
 
@@ -62,7 +65,7 @@ while run:
     dt = clock.tick(fps)/100
     frameRate = clock.get_fps()
     pygame.display.set_caption(str(frameRate) + " fps")
-
+    camera.HandleInput(dt)
     run = HandleEvent(camera, dt)
 
 
@@ -72,14 +75,16 @@ while run:
         _y = translateValue( my, 0, Height, -1, 1)
         light = Light(Vector3(-_x, -_y, -1))
 
-    sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(3)), RotationX(angle))
-    cube.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(1.2)), RotationX(angle))
+
+    sphere.transform = multiplyMatrix(RotationY(angle), ScalingMatrix(1.5))
+    cube.transform = multiplyMatrix(RotationY(-angle), ScalingMatrix(1.2))
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,
                 fill=True, wireframe=False, vertices=False, depth=True,
                 showNormals=False, radius=8, verticeColor=False, wireframeColor=(0, 223,255))
 
+    #p.position.x += angle/10
     pygame.display.flip()
     angle += 0.01
 

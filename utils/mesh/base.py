@@ -17,17 +17,6 @@ class Mesh:
     def update(self,screen, fill, wireframe, dt, camera, light, depth):
         tris = []
         normals = []
-        camera.HandleInput(dt)
-
-        camera.direction = Vector3(0, 0, 1)
-        camera.up = Vector3(0, 1, 0)
-        camera.target = Vector3(0, 0, 1)
-        camera.rotation = RotationY(camera.yaw)
-        camera.direction = multiplyMatrixVector(camera.target , camera.rotation)
-        camera.target = camera.position + camera.direction
-        lookAtMatrix = PointAt(camera.position, camera.target, camera.up)
-        camera.viewMatrix = QuickInverse(lookAtMatrix)
-        camera.target= Vector3(0, 0, 1)
 
         for index, triangle in enumerate(self.triangles):
             projected = Triangle()
