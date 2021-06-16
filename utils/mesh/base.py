@@ -9,8 +9,10 @@ import pygame
 class Mesh:
     def __init__(self):
         self.triangles = []
+        self.position = Vector3()
         self.color = (255, 255, 255)
         self.transform = identityMatrix()
+        self.translate = identityMatrix()
 
     def update(self,screen, fill, wireframe, dt, camera, light, depth):
         tris = []
@@ -31,9 +33,10 @@ class Mesh:
             projected = Triangle()
             projected.verticeColor = triangle.verticeColor
             transformed = Triangle()
-            transformed.vertex1 = multiplyMatrixVector(triangle.vertex1 , self.transform)
-            transformed.vertex2 = multiplyMatrixVector(triangle.vertex2 , self.transform)
-            transformed.vertex3 = multiplyMatrixVector(triangle.vertex3 , self.transform)
+
+            transformed.vertex1 = multiplyMatrixVector(triangle.vertex1+self.position , self.transform)
+            transformed.vertex2 = multiplyMatrixVector(triangle.vertex2+self.position , self.transform)
+            transformed.vertex3 = multiplyMatrixVector(triangle.vertex3+self.position , self.transform)
 
             transformed.vertex1 += Vector3(0, 0, Zoffset)
             transformed.vertex2 += Vector3(0, 0, Zoffset)
@@ -49,7 +52,7 @@ class Mesh:
             d = dotProduct( temp, normal)
             if d < 0.0 or depth == False:
                 # directional light -> illumination
-                dim = 0.0001
+                # dim = 0.0001
                 _light = max(dim, dotProduct(light.direction, normal) ) if light != None else 1
                 transformed.color = triangle.Shade(_light)
 
@@ -67,6 +70,7 @@ class Mesh:
                     projected.vertex1 = multiplyMatrixVector(clippedTriangles[i].vertex1, ProjectionMatrix(camera))
                     projected.vertex2 = multiplyMatrixVector(clippedTriangles[i].vertex2, ProjectionMatrix(camera))
                     projected.vertex3 = multiplyMatrixVector(clippedTriangles[i].vertex3, ProjectionMatrix(camera))
+
 
                     projected.color = clippedTriangles[i].color
                     # fix the inverted x and y

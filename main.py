@@ -31,19 +31,20 @@ Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
 
 cube = Mesh()
 cube.triangles = CubeTriangles(blue)
-
+cube.position = Vector3(2, 0, 0)
 sphere = Mesh()
 sphere.triangles = IcosphereTriangles(orange, 2)
-
+sphere.position = Vector3(-1, 0, 0)
 # sphere2 = Mesh()
 # sphere2.triangles = SphereTriangles((255, 255, 255), 20)
 
 scene = Scene()
 #add object into the world
 scene.world.append(sphere)
+#scene.world.append(cube)
 
 #camera setup
-camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 90.0)
+camera = Camera(Vector3(0, 0, 0),0.1, 1000.0, 70.0)
 camera.speed = 0.5
 camera.rotationSpeed = 0.8
 
@@ -64,7 +65,7 @@ while run:
 
     run = HandleEvent(camera, dt)
 
-    
+
     if moveLight == True and light != None:
         mx, my = pygame.mouse.get_pos()
         _x = translateValue( mx, 0,  Width,  -1,  1)
@@ -72,6 +73,7 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
     sphere.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(3)), RotationX(angle))
+    cube.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(1.2)), RotationX(angle))
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen,

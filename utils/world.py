@@ -1,5 +1,6 @@
 from utils.tools import *
 from utils.vector import *
+
 class Scene:
     def __init__(self, world=[]):
         self.world = world
@@ -17,7 +18,7 @@ class Scene:
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0
 
         triangles.sort(key=Zsort)
-        normals_length = 80
+        normals_length = 200
         normals = []
         for projected in triangles:
             origin = (projected.vertex1+projected.vertex2+projected.vertex3)/3
