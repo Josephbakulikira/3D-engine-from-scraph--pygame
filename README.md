@@ -24,6 +24,11 @@
  ![Directional LightGIF](https://user-images.githubusercontent.com/48150537/121668156-a5de2080-cac8-11eb-9efa-9d5e8bf80428.gif)
 
 ---
+### parameters
+![Screenshot (127)](https://user-images.githubusercontent.com/48150537/122591266-5a0b1880-d080-11eb-805d-840e0c87c177.png)
+
+
+---
 ### Display normals:
               ShowNormals = True
               # you can set the normal lines length in the world.py file
@@ -41,10 +46,19 @@
               wireframe = True
 ![wireframe](https://user-images.githubusercontent.com/48150537/121646751-41649680-cab3-11eb-8a56-8ee20a5c08ab.gif)
 
+---
+### Display Point Vertices
+              vertices = True
+![cube](https://user-images.githubusercontent.com/48150537/121646975-7ec92400-cab3-11eb-8d73-f5eebe130b62.gif)
 
 ---
+### Display Axis
+              showAxis = True
+ ![ezgif com-gif-maker (4)](https://user-images.githubusercontent.com/48150537/122591036-000a5300-d080-11eb-82dd-8c29d3842702.gif)
+             
+---
 ![icosphereGIG](https://user-images.githubusercontent.com/48150537/121646963-7cff6080-cab3-11eb-9341-cb007f568611.gif)
-![cube](https://user-images.githubusercontent.com/48150537/121646975-7ec92400-cab3-11eb-8d73-f5eebe130b62.gif)
+
 ---
 # Enjoy✌
 #### subscribe to my youtube
