@@ -83,13 +83,13 @@ while run:
 
 
     torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
-    cube.transform = multiplyMatrix(RotationY(angle), RotationZ(angle))
+    cube.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(1.4) ), RotationZ(angle))
     sphere.transform = RotationX(angle)
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=True,
                 fill=True, wireframe=False, vertices=False, depth=True,
-                showNormals=False, radius=8, verticeColor=False, wireframeColor=(0, 223,255))
+                showNormals=False, radius=8, verticeColor=False, wireframeColor=(255, 255, 255))
     #p.position.x += angle/10
     pygame.display.flip()
     angle += 0.01
