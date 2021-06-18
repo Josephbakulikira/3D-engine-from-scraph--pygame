@@ -5,8 +5,7 @@ from utils.transform import *
 from utils.matrix import *
 import pygame
 
-def cameraRotation(vec):
-    return multiplyMatrix(RotationX(vec.x), RotationY(vec.y))
+
 
 class Camera:
     def __init__(self, position, near, far, fov):
@@ -20,7 +19,6 @@ class Camera:
         self.direction = Vector3()
         self.up = Vector3()
         self.transform = identityMatrix()
-        self.rotation = cameraRotation(Vector2(self.yaw, self.phi))
         self.target = position
         self.speed = 0.1
         self.rotationSpeed = 1.5

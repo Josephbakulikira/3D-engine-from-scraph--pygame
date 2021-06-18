@@ -31,23 +31,29 @@ Deer = Mesh()
 Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
 
 cube = Mesh()
-cube.triangles = CubeTriangles(blue)
-cube.position = Vector3(0, 1.6, 0)
+cube.triangles = CubeTriangles((240,84,84))
+cube.position = Vector3(0, 0, 0)
 
 sphere = Mesh()
-sphere.triangles = IcosphereTriangles(orange, 2)
-sphere.position = Vector3(0, -1.6, 0)
+sphere.triangles = IcosphereTriangles((246,131,15), 2)
+sphere.position = Vector3(4.3, 0, 0)
+
+torus = Mesh()
+torus.triangles = LoadMesh("./assets/torus.obj", (56,147,147))
+torus.position = Vector3(-1, 0, 0)
 # sphere2 = Mesh()
 # sphere2.triangles = SphereTriangles((255, 255, 255), 20)
 
 scene = Scene()
 #add object into the world
-scene.world.append(sphere)
+#scene.world.append(torus)
+#scene.world.append(sphere)
 scene.world.append(cube)
 
 
+
 #camera setup
-camera = Camera(Vector3(0, 2, 0),0.1, 1000.0, 70.0)
+camera = Camera(Vector3(0, 1, 0), 0.1, 1000.0, 75.0)
 camera.speed = 0.5
 camera.rotationSpeed = 0.8
 
@@ -76,14 +82,14 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
 
-    sphere.transform = multiplyMatrix(RotationY(angle), ScalingMatrix(1.5))
-    cube.transform = multiplyMatrix(RotationY(-angle), ScalingMatrix(1.2))
+    torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
+    cube.transform = multiplyMatrix(RotationY(angle), RotationZ(angle))
+    sphere.transform = RotationX(angle)
 
     # display scene
-    scene.update(dt = dt, camera=camera, light=light, screen=screen,
+    scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=True,
                 fill=True, wireframe=False, vertices=False, depth=True,
                 showNormals=False, radius=8, verticeColor=False, wireframeColor=(0, 223,255))
-
     #p.position.x += angle/10
     pygame.display.flip()
     angle += 0.01

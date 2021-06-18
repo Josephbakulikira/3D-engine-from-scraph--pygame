@@ -1,6 +1,7 @@
 import pygame
 from utils.vector import *
 from utils.triangle import Triangle
+from utils.mesh.point import *
 import colorsys
 
 def hsv_to_rgb(h, s, v):
@@ -122,3 +123,22 @@ def TriangleClipped(pos, normal, triangle, outTriangle):
         outTriangle[1].vertex3 = PlaneLineIntersection(pos, normal, insidePoints[1], outsidePoints[0])
 
         return 2
+
+def DrawAxis(screen, camera, scale=3,center=None, Xaxis=True, Yaxis=True, Zaxis=True, stroke=5, alpha=100):
+    if center == None:
+        center = Point(Vector3(0, 0, 0))
+
+    X = Point(Vector3(scale, 0, 0), (255, 0, 0))
+    Y = Point(Vector3(0, scale, 0), (0, 255, 0))
+    Z = Point(Vector3(0, 0, scale), (0, 0, 255))
+    origin = center.update(screen, camera)
+
+    if Xaxis:
+        x_axis = X.update(screen, camera, True)
+        pygame.draw.line(screen, X.color, origin.GetTuple(),x_axis.GetTuple(), stroke)
+    if Zaxis:
+        z_axis = Z.update(screen, camera, True)
+        pygame.draw.line(screen, Z.color, origin.GetTuple(), z_axis.GetTuple(), stroke)
+    if Yaxis:
+        y_axis = Y.update(screen, camera, True)
+        pygame.draw.line(screen, Y.color, origin.GetTuple(), y_axis.GetTuple(), stroke)

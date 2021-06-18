@@ -7,7 +7,7 @@ class Scene:
     def __init__(self, world=[]):
         self.world = world
 
-    def update(self, dt, camera, light, screen,
+    def update(self, dt, camera, light, screen, showAxis=False,
                fill=True, wireframe=False, vertices=False, depth=True,showNormals=False,
                radius=8, verticeColor=False,
                wireframeColor=(255, 255, 255), lineWidth=1):
@@ -32,8 +32,9 @@ class Scene:
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0
 
         triangles.sort(key=Zsort)
-        normals_length = 200
+        normals_length = 250
         normals = []
+
         for projected in triangles:
             origin = (projected.vertex1+projected.vertex2+projected.vertex3)/3
 
@@ -43,6 +44,9 @@ class Scene:
             DrawTriangle(screen, projected, fill, wireframe,vertices, radius, verticeColor, wireframeColor, lineWidth)
             origins.append(origin)
             normals.append(normal)
+
+        if showAxis:
+            DrawAxis(screen, camera)
 
         if showNormals == True: #---to fix later
             # get the normal vector

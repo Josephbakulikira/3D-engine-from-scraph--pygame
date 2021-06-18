@@ -11,7 +11,7 @@ class Point:
         self.radius =radius
         self.transform = identityMatrix()
 
-    def update(self,screen, camera):
+    def update(self,screen, camera,showPoint=False):
 
         projected = None
         transformed = None
@@ -24,4 +24,6 @@ class Point:
         offsetView = Vector3(1, 1, 0)
         projected = projected + offsetView
         projected *= Vector3(Width, Height, 1) * 0.5
-        pygame.draw.circle(screen,self.color, projected.GetTuple(), self.radius)
+        if showPoint:
+            pygame.draw.circle(screen,self.color, projected.GetTuple(), self.radius)
+        return projected
