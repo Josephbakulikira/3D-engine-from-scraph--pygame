@@ -22,7 +22,11 @@
               # to disable the light in the scene you can set the light = None
                light = None
  ![Directional LightGIF](https://user-images.githubusercontent.com/48150537/121668156-a5de2080-cac8-11eb-9efa-9d5e8bf80428.gif)
-
+---
+### Controls
+              might work on a much better controls later but for now to move around the scene you can use
+              'WASD' and "Arrows"
+      
 ---
 ### parameters
 ![Screenshot (127)](https://user-images.githubusercontent.com/48150537/122591266-5a0b1880-d080-11eb-805d-840e0c87c177.png)
