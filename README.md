@@ -58,6 +58,10 @@
 ---
 ### Display Axis
               showAxis = True
+              red-> x axis
+              green-> y axis
+              blue-> z axis
+              
  ![ezgif com-gif-maker (4)](https://user-images.githubusercontent.com/48150537/122591036-000a5300-d080-11eb-82dd-8c29d3842702.gif)
              
 ---
