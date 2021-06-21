@@ -30,9 +30,12 @@ a = pygame.event.set_grab(False)
 Deer = Mesh()
 Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
 
+teapot = Mesh()
+teapot.triangles = LoadMesh("./assets/utahteapot.obj", (255, 255, 0))
+
 cube = Mesh()
 cube.triangles = CubeTriangles((240,84,84))
-cube.position = Vector3(0, 0, 0)
+cube.position = Vector3(3, 2, 0)
 
 sphere = Mesh()
 sphere.triangles = IcosphereTriangles((246,131,15), 2)
@@ -46,9 +49,10 @@ torus.position = Vector3(-1, 0, 0)
 
 scene = Scene()
 #add object into the world
-#scene.world.append(torus)
-#scene.world.append(sphere)
+scene.world.append(torus)
+scene.world.append(sphere)
 scene.world.append(cube)
+#scene.world.append(teapot)
 
 
 
@@ -82,8 +86,9 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
 
+    #teapot.transform = RotationY(angle)
     torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
-    cube.transform = multiplyMatrix(multiplyMatrix(RotationY(angle), ScalingMatrix(1.4) ), RotationZ(angle))
+    cube.transform = RotationY(angle)
     sphere.transform = RotationX(angle)
 
     # display scene

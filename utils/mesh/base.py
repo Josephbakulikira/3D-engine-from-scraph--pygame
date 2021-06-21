@@ -37,9 +37,10 @@ class Mesh:
             normal = Normalize( crossProduct(line1, line2) )
 
             temp = transformed.vertex1 - camera.position
-
             d = dotProduct( temp, normal)
             if d < 0.0 or depth == False:
+                # print(normal)
+
                 # directional light -> illumination
                 # dim = 0.0001
                 _light = max(dim, dotProduct(light.direction, normal) ) if light != None else 1

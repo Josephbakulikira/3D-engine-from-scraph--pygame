@@ -35,7 +35,7 @@ class Scene:
         normals_length = 250
         normals = []
 
-        for projected in triangles:
+        for projected in reversed(triangles):
             origin = (projected.vertex1+projected.vertex2+projected.vertex3)/3
 
             line1 = projected.vertex2 - projected.vertex1
