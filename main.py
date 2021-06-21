@@ -27,8 +27,9 @@ pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
 a = pygame.event.set_grab(False)
 
+#create mesh
 Deer = Mesh()
-Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89))
+Deer.triangles = LoadMesh("./assets/deer.obj",(186, 135, 89)) # load mesh triangles
 
 teapot = Mesh()
 teapot.triangles = LoadMesh("./assets/utahteapot.obj", (255, 255, 0))
@@ -44,18 +45,15 @@ sphere.position = Vector3(4.3, 0, 0)
 torus = Mesh()
 torus.triangles = LoadMesh("./assets/torus.obj", (56,147,147))
 torus.position = Vector3(-1, 0, 0)
-# sphere2 = Mesh()
-# sphere2.triangles = SphereTriangles((255, 255, 255), 20)
 
+# create scene and the world
 scene = Scene()
-#add object into the world
+#add object you want to display into the world
 scene.world.append(torus)
 scene.world.append(sphere)
 scene.world.append(cube)
-#scene.world.append(teapot)
-#scene.world.append(Deer)
-
-
+# scene.world.append(teapot)
+# scene.world.append(Deer)
 
 #camera setup
 camera = Camera(Vector3(0, 1, 0), 0.1, 1000.0, 75.0)
@@ -65,10 +63,9 @@ camera.rotationSpeed = 0.8
 #light setup
 light = Light(Vector3(0.9, 0.9, -1))
 
+
 angle = 0
-
 moveLight = True
-
 run = True
 while run:
     screen.fill(BackgroundColor)
@@ -87,6 +84,8 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
 
+    # apply the transformation matrix here
+
     #Deer.transform = RotationY(angle)
     #teapot.transform = RotationY(angle)
     torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
@@ -97,7 +96,6 @@ while run:
     scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=False,
                 fill=True, wireframe=False, vertices=False, depth=True, clippingDebug=False,
                 showNormals=False, radius=8, verticeColor=False, wireframeColor=(255, 255, 255))
-    #p.position.x += angle/10
     pygame.display.flip()
     angle += 0.01
 
