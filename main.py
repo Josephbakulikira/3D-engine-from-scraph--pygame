@@ -53,6 +53,7 @@ scene.world.append(torus)
 scene.world.append(sphere)
 scene.world.append(cube)
 #scene.world.append(teapot)
+#scene.world.append(Deer)
 
 
 
@@ -86,13 +87,14 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
 
+    #Deer.transform = RotationY(angle)
     #teapot.transform = RotationY(angle)
     torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
     cube.transform = RotationY(angle)
     sphere.transform = RotationX(angle)
 
     # display scene
-    scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=True,
+    scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=False,
                 fill=True, wireframe=False, vertices=False, depth=True, clippingDebug=False,
                 showNormals=False, radius=8, verticeColor=False, wireframeColor=(255, 255, 255))
     #p.position.x += angle/10
