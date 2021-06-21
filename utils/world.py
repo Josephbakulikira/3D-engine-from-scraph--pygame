@@ -8,7 +8,8 @@ class Scene:
         self.world = world
 
     def update(self, dt, camera, light, screen, showAxis=False,
-               fill=True, wireframe=False, vertices=False, depth=True,showNormals=False,
+               fill=True, wireframe=False, vertices=False, depth=True,
+               clippingDebug=False, showNormals=False,
                radius=8, verticeColor=False,
                wireframeColor=(255, 255, 255), lineWidth=1):
         camera.HandleInput(dt)
@@ -26,7 +27,7 @@ class Scene:
         triangles = []
         origins = []
         for ob in self.world:
-            triangles += ob.update(screen,fill, wireframe, dt, camera, light, depth)
+            triangles += ob.update(screen,fill, wireframe, dt, camera, light, depth, clippingDebug)
 
         def Zsort(val):
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0

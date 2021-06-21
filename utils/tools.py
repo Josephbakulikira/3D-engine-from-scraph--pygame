@@ -1,6 +1,7 @@
 import pygame
 from utils.vector import *
 from utils.triangle import Triangle
+from constants import *
 from utils.mesh.point import *
 import colorsys
 
@@ -61,7 +62,7 @@ def SignedDist(pos, normal, p):
     n = Normalize(pos)
     return (normal.x * pos.x + normal.y * pos.y + normal.z * pos.z - dotProduct(normal, p))
 
-def TriangleClipped(pos, normal, triangle, outTriangle):
+def TriangleClipped(pos, normal, triangle, outTriangle, clippingDebug=False):
     #normal = Normalize(normal)
 
     insidePoints, insideCount = [None for _ in range(3)], 0
@@ -101,7 +102,7 @@ def TriangleClipped(pos, normal, triangle, outTriangle):
 
     if insideCount == 1 and outsideCount == 2:
         # outTriangle[0].color = (0, 255,24)
-        outTriangle[0].color = triangle.color
+        outTriangle[0].color = triangle.color if clippingDebug==False else red
 
         outTriangle[0].vertex1 = insidePoints[0]
         outTriangle[0].vertex2 = PlaneLineIntersection(pos, normal, insidePoints[0], outsidePoints[0])
@@ -112,8 +113,8 @@ def TriangleClipped(pos, normal, triangle, outTriangle):
 
         # outTriangle[0].color = (55, 60, 255)
         # outTriangle[1].color = (255,51, 12)
-        outTriangle[0].color = triangle.color
-        outTriangle[1].color = triangle.color
+        outTriangle[0].color = triangle.color if clippingDebug==False else blue
+        outTriangle[1].color = triangle.color if clippingDebug==False else green
         outTriangle[0].vertex1 = insidePoints[1]
         outTriangle[0].vertex2 = insidePoints[0]
         outTriangle[0].vertex3 = PlaneLineIntersection(pos, normal, insidePoints[0], outsidePoints[0])

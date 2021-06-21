@@ -14,7 +14,7 @@ class Mesh:
         self.transform = identityMatrix()
         self.translate = identityMatrix()
 
-    def update(self,screen, fill, wireframe, dt, camera, light, depth):
+    def update(self,screen, fill, wireframe, dt, camera, light, depth, clippingDebug):
         tris = []
         normals = []
 
@@ -52,7 +52,7 @@ class Mesh:
 
                 clipped = 0
                 clippedTriangles = [Triangle() for _ in range(2)]
-                clipped = TriangleClipped(Vector3(0, 0, clipping), Vector3(0, 0, 1), transformed, clippedTriangles)
+                clipped = TriangleClipped(Vector3(0, 0, clipping), Vector3(0, 0, 1), transformed, clippedTriangles, clippingDebug)
 
                 for i in range(clipped):
                     #print(clippedTriangles)

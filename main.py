@@ -93,7 +93,7 @@ while run:
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=True,
-                fill=True, wireframe=False, vertices=False, depth=True,
+                fill=True, wireframe=False, vertices=False, depth=True, clippingDebug=False,
                 showNormals=False, radius=8, verticeColor=False, wireframeColor=(255, 255, 255))
     #p.position.x += angle/10
     pygame.display.flip()
