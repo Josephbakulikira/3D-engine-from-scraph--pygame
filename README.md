@@ -4,8 +4,8 @@
 
 
 ---
-### Packages
-             - pip install pygame
+### Package Requirement
+             PYGAME -> pip install pygame
 ---
 ### Bugs (unsolved issues)
     - The z sorting of triangles still has some noticeable issues
