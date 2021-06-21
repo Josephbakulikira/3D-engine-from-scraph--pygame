@@ -43,6 +43,7 @@
 ### Camera clipping
         it's still has a couple of issues when it comes to the boundary cliping , since it's only clip the faces
         that are in front of the camera.
+        
 ![clippingGIF](https://user-images.githubusercontent.com/48150537/121647190-bfc13880-cab3-11eb-8ee7-c0ee61f47849.gif)
 
 ---
