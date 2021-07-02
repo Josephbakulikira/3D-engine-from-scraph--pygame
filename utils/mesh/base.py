@@ -2,7 +2,7 @@ from utils.matrix import *
 from utils.transform import *
 from utils.vector import Vector3, crossProduct,dotProduct, Normalize
 from utils.triangle import Triangle
-from utils.tools import DrawTriangle, TriangleClipped
+from utils.tools import DrawTriangle, TriangleClipped, hsv2rgb
 from constants import Width, Height, Zoffset, clipping
 import pygame
 
@@ -14,7 +14,7 @@ class Mesh:
         self.transform = identityMatrix()
         self.translate = identityMatrix()
 
-    def update(self,screen, fill, wireframe, dt, camera, light, depth, clippingDebug):
+    def update(self,screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0):
         tris = []
         normals = []
 
@@ -39,6 +39,9 @@ class Mesh:
             temp = transformed.vertex1 - camera.position
             d = dotProduct( temp, normal)
             if d < 0.0 or depth == False:
+                if hue != 0:
+                    triangle.color = hsv2rgb(hue, 1, 1)
+
                 # print(normal)
 
                 # directional light -> illumination
@@ -63,10 +66,10 @@ class Mesh:
 
 
                     projected.color = clippedTriangles[i].color
-                    # fix the inverted x and y
-                    projected.vertex1 *= Vector3(-1, -1, 1)
-                    projected.vertex2 *= Vector3(-1, -1, 1)
-                    projected.vertex3 *= Vector3(-1, -1, 1)
+                    # fix the inverted x
+                    projected.vertex1 *= Vector3(1, -1, 1)
+                    projected.vertex2 *= Vector3(1, -1, 1)
+                    projected.vertex3 *= Vector3(1, -1, 1)
 
                     offsetView = Vector3(1, 1, 0)
                     projected.vertex1 = projected.vertex1 + offsetView

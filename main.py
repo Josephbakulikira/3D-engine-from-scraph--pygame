@@ -36,15 +36,15 @@ teapot.triangles = LoadMesh("./assets/utahteapot.obj", (255, 255, 0))
 
 cube = Mesh()
 cube.triangles = CubeTriangles((240,84,84))
-cube.position = Vector3(3, 2, 0)
+cube.position = Vector3(5, -2, 0)
 
 sphere = Mesh()
 sphere.triangles = IcosphereTriangles((246,131,15), 2)
-sphere.position = Vector3(4.3, 0, 0)
+sphere.position = Vector3(0, 0, 0)
 
 torus = Mesh()
 torus.triangles = LoadMesh("./assets/torus.obj", (56,147,147))
-torus.position = Vector3(-1, 0, 0)
+torus.position = Vector3(-3, -2, 0)
 
 # create scene and the world
 scene = Scene()
@@ -56,13 +56,13 @@ scene.world.append(cube)
 # scene.world.append(Deer)
 
 #camera setup
-camera = Camera(Vector3(0, 1, 0), 0.1, 1000.0, 75.0)
+camera = Camera(Vector3(0, 0, 0), 0.1, 1000.0, 75.0)
 camera.speed = 0.5
 camera.rotationSpeed = 0.8
 
 #light setup
 light = Light(Vector3(0.9, 0.9, -1))
-
+hue = 0
 
 angle = 0
 moveLight = True
@@ -75,7 +75,7 @@ while run:
     pygame.display.set_caption(str(frameRate) + " fps")
     camera.HandleInput(dt)
     run = HandleEvent(camera, dt)
-
+    hue = 0
 
     if moveLight == True and light != None:
         mx, my = pygame.mouse.get_pos()
@@ -86,16 +86,16 @@ while run:
 
     # apply the transformation matrix here
 
-    #Deer.transform = RotationY(angle)
-    #teapot.transform = RotationY(angle)
     torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
-    cube.transform = RotationY(angle)
-    sphere.transform = RotationX(angle)
+    cube.transform = multiplyMatrix(RotationY(angle), ScalingMatrix(1.2))
+    sphere.transform = multiplyMatrix ( RotationX(angle), multiplyMatrix(RotationY(angle), ScalingMatrix(1.4)) )
 
     # display scene
-    scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=False,
-                fill=True, wireframe=False, vertices=False, depth=True, clippingDebug=False,
-                showNormals=False, radius=8, verticeColor=False, wireframeColor=(255, 255, 255))
+    scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=True,
+                fill=True, wireframe=False, vertices=False, depth=True, clippingDebug=True,
+                showNormals=False, radius=9, verticeColor=False, wireframeColor=(255, 255, 255), ChangingColor=hue)
+
+                
     pygame.display.flip()
     angle += 0.01
 

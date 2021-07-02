@@ -11,7 +11,7 @@ class Scene:
                fill=True, wireframe=False, vertices=False, depth=True,
                clippingDebug=False, showNormals=False,
                radius=8, verticeColor=False,
-               wireframeColor=(255, 255, 255), lineWidth=1):
+               wireframeColor=(255, 255, 255),ChangingColor=0, lineWidth=1):
         camera.HandleInput(dt)
 
         camera.direction = Vector3(0, 0, 1)
@@ -27,7 +27,7 @@ class Scene:
         triangles = []
         origins = []
         for ob in self.world:
-            triangles += ob.update(screen,fill, wireframe, dt, camera, light, depth, clippingDebug)
+            triangles += ob.update(screen,fill, wireframe, dt, camera, light, depth, clippingDebug, ChangingColor)
 
         def Zsort(val):
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0
@@ -36,9 +36,10 @@ class Scene:
         normals_length = 250
         normals = []
 
+
+
         for projected in reversed(triangles):
             origin = (projected.vertex1+projected.vertex2+projected.vertex3)/3
-
             line1 = projected.vertex2 - projected.vertex1
             line2 = projected.vertex3 - projected.vertex1
             normal = crossProduct(line1, line2) * normals_length

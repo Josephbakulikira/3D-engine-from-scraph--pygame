@@ -26,6 +26,9 @@ def DrawTriangle(screen, triangle, fill, wireframe, vertices, radius, verticeCol
         pygame.draw.circle(screen, color, triangle.vertex2.GetTuple(), radius)
         pygame.draw.circle(screen, color, triangle.vertex3.GetTuple(), radius)
 
+def hsv2rgb(h,s,v):
+    return tuple(round(i * 255) for i in colorsys.hsv_to_rgb(h,s,v))
+
 def LoadMesh(objectPath, color=(255, 255, 255)):
     vert_data = []
     triangle_indices = []
