@@ -29,7 +29,7 @@ a = pygame.event.set_grab(False)
 
 # create mesh
 Deer = Mesh()
-Deer.triangles = LoadMesh("./assets/deer.obj", (186, 135, 89))  # load mesh triangles
+Deer.triangles = LoadMesh("./assets/deer.obj", (186, 135, 89))
 
 teapot = Mesh()
 teapot.triangles = LoadMesh("./assets/utahteapot.obj", (255, 255, 0))
@@ -48,12 +48,11 @@ torus.position = Vector3(-3, -2, 0)
 
 # create scene and the world
 scene = Scene()
+
 # add object you want to display into the world
 scene.world.append(torus)
 scene.world.append(sphere)
 scene.world.append(cube)
-# scene.world.append(teapot)
-# scene.world.append(Deer)
 
 # camera setup
 camera = Camera(Vector3(0, 0, 0), 0.1, 1000.0, 75.0)
@@ -84,7 +83,6 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
     # apply the transformation matrix here
-
     torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
     cube.transform = multiplyMatrix(RotationY(angle), ScalingMatrix(1.2))
     sphere.transform = multiplyMatrix(
