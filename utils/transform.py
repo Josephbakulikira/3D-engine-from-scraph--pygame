@@ -5,18 +5,6 @@ import utils.matrix as matrix
 from utils.camera import Camera
 
 
-# TODO: move in matrix.Matrix class
-def ProjectionMatrix(camera: Camera) -> matrix.Matrix:
-    m = matrix.Matrix()
-    m.val = [
-        [constants.aspect * camera.tangent, 0.0, 0.0, 0.0],
-        [0.0, camera.tangent, 0.0, 0.0],
-        [0.0, 0.0, camera.far / (camera.far - camera.near), 1],
-        [0.0, 0.0, (-camera.far * camera.near) / (camera.far - camera.near), 0.0],
-    ]
-    return m
-
-
 # TODO: what are the types of these args ? Vector3 or floats ?
 def PointAt(current, next, up) -> matrix.Matrix:
     f = (next - current).norm()  # forward vector

@@ -26,9 +26,7 @@ class Point:
         transformed += Vector3(0, 0, Zoffset)
         transformed = matrix.multiplyMatrixVector(transformed, camera.viewMatrix)
 
-        projected = matrix.multiplyMatrixVector(
-            transformed, transform.ProjectionMatrix(camera)
-        )
+        projected = matrix.multiplyMatrixVector(transformed, camera.projection())
         projected *= Vector3(-1, -1, 1)
 
         offsetView = Vector3(1, 1, 0)

@@ -113,13 +113,13 @@ class Mesh:
                 for i in range(clipped):
                     # project to 2D screen
                     projected.vertex1 = matrix.multiplyMatrixVector(
-                        clippedTriangles[i].vertex1, transform.ProjectionMatrix(camera)
+                        clippedTriangles[i].vertex1, camera.projection()
                     )
                     projected.vertex2 = matrix.multiplyMatrixVector(
-                        clippedTriangles[i].vertex2, transform.ProjectionMatrix(camera)
+                        clippedTriangles[i].vertex2, camera.projection()
                     )
                     projected.vertex3 = matrix.multiplyMatrixVector(
-                        clippedTriangles[i].vertex3, transform.ProjectionMatrix(camera)
+                        clippedTriangles[i].vertex3, camera.projection()
                     )
 
                     projected.color = clippedTriangles[i].color

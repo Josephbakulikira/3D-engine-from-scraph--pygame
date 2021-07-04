@@ -2,6 +2,8 @@ from math import tan, pi
 import pygame
 import utils.vector as vector
 import utils.transform as transform
+from utils.matrix import Matrix
+import constants
 
 
 class Camera:
@@ -48,3 +50,18 @@ class Camera:
     def HandleMouseEvent(self, x, y, deltaTime):
         # not finished
         self.yaw += x
+
+    def projection(self) -> Matrix:
+        """Compute the projection Matrix corresponding to the current camera position
+        and orientation.
+        Returns:
+            Matrix - the projection matrix
+        """
+        matrix = Matrix()
+        matrix.val = [
+            [constants.aspect * self.tangent, 0.0, 0.0, 0.0],
+            [0.0, self.tangent, 0.0, 0.0],
+            [0.0, 0.0, self.far / (self.far - self.near), 1],
+            [0.0, 0.0, (-self.far * self.near) / (self.far - self.near), 0.0],
+        ]
+        return matrix
