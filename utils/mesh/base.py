@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 from utils.matrix import *
 from utils.transform import *
 from utils.vector import Vector3, crossProduct,dotProduct, Normalize
+=======
+from __future__ import annotations
+from typing import Optional
+from os import PathLike
+import pygame
+import utils.matrix as matrix
+from utils.vector import Vector3
+>>>>>>> 4f9de1a37b8d2bf9ad6687ebf21a62e1384b3ede
 from utils.triangle import Triangle
 from utils.tools import DrawTriangle, TriangleClipped, hsv2rgb
 from constants import Width, Height, Zoffset, clipping
@@ -11,10 +20,48 @@ class Mesh:
         self.triangles = []
         self.position = Vector3()
         self.color = (255, 255, 255)
+<<<<<<< HEAD
         self.transform = identityMatrix()
         self.translate = identityMatrix()
 
     def update(self,screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0):
+=======
+        self.transform = matrix.Matrix.identity()
+        self.translate = matrix.Matrix.identity()
+
+    @classmethod
+    def from_file(
+        cls,
+        fname: PathLike,
+        color: tuple[int, int, int],
+        position: Optional[Vector3] = None,
+    ) -> Mesh:
+        triangles = LoadMesh(fname, color)
+        return cls(triangles, position)
+
+    @classmethod
+    def cube(
+        cls, color: tuple[int, int, int], position: Optional[Vector3] = None
+    ) -> Mesh:
+        tris = meshes.CubeTriangles(color)
+        return cls(tris, position)
+
+    @classmethod
+    def icosphere(
+        cls,
+        color: tuple[int, int, int],
+        subdivision=0,
+        radius=1,
+        position: Optional[Vector3] = None,
+    ) -> Mesh:
+        tris = spheres.IcosphereTriangles(color, subdivision, radius)
+        return cls(tris, position)
+
+    # TODO: refactor this method, its way too long
+    def update(
+        self, screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0
+    ):
+>>>>>>> 4f9de1a37b8d2bf9ad6687ebf21a62e1384b3ede
         tris = []
         normals = []
 

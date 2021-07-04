@@ -16,9 +16,9 @@ class Camera:
         self.yaw = 0
         self.phi = 0
         self.tangent = 1.0 / tan(self.fov * 0.5 / 180 * pi)
-        self.direction = Vector3()
-        self.up = Vector3()
-        self.transform = identityMatrix()
+        self.direction = vector.Vector3()
+        self.up = vector.Vector3()
+        self.transform = Matrix.identity()
         self.target = position
         self.speed = 0.1
         self.rotationSpeed = 1.5
@@ -51,3 +51,18 @@ class Camera:
     def HandleMouseEvent(self, x, y, deltaTime):
         # not finished
         self.yaw += x
+
+    def projection(self) -> Matrix:
+        """Compute the projection Matrix corresponding to the current camera position
+        and orientation.
+        Returns:
+            Matrix - the projection matrix
+        """
+        matrix = Matrix()
+        matrix.val = [
+            [constants.aspect * self.tangent, 0.0, 0.0, 0.0],
+            [0.0, self.tangent, 0.0, 0.0],
+            [0.0, 0.0, self.far / (self.far - self.near), 1],
+            [0.0, 0.0, (-self.far * self.near) / (self.far - self.near), 0.0],
+        ]
+        return matrix

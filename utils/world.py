@@ -14,11 +14,11 @@ class Scene:
                wireframeColor=(255, 255, 255),ChangingColor=0, lineWidth=1):
         camera.HandleInput(dt)
 
-        camera.direction = Vector3(0, 0, 1)
-        camera.up = Vector3(0, 1, 0)
-        camera.target = Vector3(0, 0, 1)
-        camera.rotation = RotationY(camera.yaw)
-        camera.direction = multiplyMatrixVector(camera.target , camera.rotation)
+        camera.direction = vector.Vector3(0, 0, 1)
+        camera.up = vector.Vector3(0, 1, 0)
+        camera.target = vector.Vector3(0, 0, 1)
+        camera.rotation = matrix.Matrix.rotation_y(camera.yaw)
+        camera.direction = matrix.multiplyMatrixVector(camera.target, camera.rotation)
         camera.target = camera.position + camera.direction
         lookAtMatrix = PointAt(camera.position, camera.target, camera.up)
         camera.viewMatrix = QuickInverse(lookAtMatrix)
@@ -29,9 +29,10 @@ class Scene:
         for ob in self.world:
             triangles += ob.update(screen,fill, wireframe, dt, camera, light, depth, clippingDebug, ChangingColor)
 
-        #sort the triangles list based on the average of their z coordinate -> painters algorithm
+        # sort the triangles list based on the average of their z coordinate -> painters algorithm
         def Zsort(val):
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0
+
         triangles.sort(key=Zsort)
 
         normals_length = 250

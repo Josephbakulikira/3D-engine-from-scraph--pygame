@@ -16,7 +16,7 @@ from utils.mesh.point import *
 from utils.matrix import *
 from utils.tools import *
 from utils.world import Scene
-from math import pi
+from utils.matrix import Matrix
 
 screen = pygame.display.set_mode(Size)
 clock = pygame.time.Clock()
@@ -76,7 +76,7 @@ while run:
     pygame.display.set_caption(str(frameRate) + " fps")
     run = HandleEvent(camera, dt)
     hue = 0
-    #handle input
+    # handle input
     camera.HandleInput(dt)
 
     if moveLight == True and light != None:
@@ -86,10 +86,11 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
     # apply the transformation matrix here
-
-    torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
-    cube.transform = multiplyMatrix(RotationY(angle), ScalingMatrix(1.2))
-    sphere.transform = multiplyMatrix ( RotationX(angle), multiplyMatrix(RotationY(angle), ScalingMatrix(1.4)) )
+    torus.transform = Matrix.rotation_x(angle) @ Matrix.scaling(1.9)
+    cube.transform = Matrix.rotation_y(angle) @ Matrix.scaling(1.2)
+    sphere.transform = Matrix.rotation_x(angle) @ (
+        Matrix.rotation_y(angle) @ Matrix.scaling(1.4)
+    )
 
     # display scene
     scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=True,
