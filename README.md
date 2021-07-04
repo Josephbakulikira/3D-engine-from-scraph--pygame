@@ -27,7 +27,7 @@
 ### Controls
               might work on a much better controls later but for now to move around the scene you can use
               'WASD' and "Arrows"
-              mouse control coming soon
+              The controls are weird , i'm gonna try to improve them
       
 ---
 ### parameters
