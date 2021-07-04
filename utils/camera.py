@@ -1,14 +1,13 @@
 from math import tan, pi
-from constants import *
-from utils.vector import *
-from utils.transform import *
-from utils.matrix import *
 import pygame
-
+import utils.vector as vector
+import utils.transform as transform
+from utils.matrix import Matrix
+import constants
 
 
 class Camera:
-    def __init__(self, position, near, far, fov):
+    def __init__(self, position, near, far, fov, speed=0.1, rotation_speed=1.5):
         self.position = position
         self.near = near
         self.far = far
@@ -16,13 +15,13 @@ class Camera:
         self.yaw = 0
         self.phi = 0
         self.tangent = 1.0 / tan(self.fov * 0.5 / 180 * pi)
-        self.direction = Vector3()
-        self.up = Vector3()
-        self.transform = identityMatrix()
+        self.direction = vector.Vector3()
+        self.up = vector.Vector3()
+        self.transform = transform.identityMatrix()
         self.target = position
-        self.speed = 0.1
-        self.rotationSpeed = 1.5
-        self.temp = Vector3()
+        self.speed = speed
+        self.rotationSpeed = rotation_speed
+        self.temp = vector.Vector3()
 
     def HandleInput(self, dt):
         keys = pygame.key.get_pressed()
@@ -39,9 +38,9 @@ class Camera:
 
         self.temp = self.target * delta
 
-        if keys[pygame.K_w]: #zoom in
+        if keys[pygame.K_w]:  # zoom in
             self.position += self.temp
-        if keys[pygame.K_s]: #zoom out
+        if keys[pygame.K_s]:  # zoom out
             self.position -= self.temp
         if keys[pygame.K_a]:
             self.yaw -= 0.04
@@ -51,3 +50,18 @@ class Camera:
     def HandleMouseEvent(self, x, y, deltaTime):
         # not finished
         self.yaw += x
+
+    def projection(self) -> Matrix:
+        """Compute the projection Matrix corresponding to the current camera position
+        and orientation.
+        Returns:
+            Matrix - the projection matrix
+        """
+        matrix = Matrix()
+        matrix.val = [
+            [constants.aspect * self.tangent, 0.0, 0.0, 0.0],
+            [0.0, self.tangent, 0.0, 0.0],
+            [0.0, 0.0, self.far / (self.far - self.near), 1],
+            [0.0, 0.0, (-self.far * self.near) / (self.far - self.near), 0.0],
+        ]
+        return matrix
