@@ -5,7 +5,6 @@ import sys
 import pygame
 import constants
 from event import HandleEvent
-import utils.transform as transform
 from utils.vector import Vector3
 from utils.camera import Camera
 from utils.light import Light
