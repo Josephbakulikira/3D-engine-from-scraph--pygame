@@ -3,6 +3,7 @@ from utils.vector import *
 from math import cos, sin
 from copy import deepcopy
 
+
 class Matrix:
     def __init__(self, r=4, c=4):
         self.row = r
@@ -22,7 +23,7 @@ class Matrix:
 
     def __repr__(self):
         ## DEBUG
-        return f'matrix->{self.val}'
+        return f"matrix->{self.val}"
 
 
 def multiplyMatrix(m1, m2):
@@ -41,6 +42,7 @@ def multiplyMatrix(m1, m2):
 
     return m
 
+
 def multiplyMatrixVector(vec, mat):
     temp = Matrix(1, 4)
     temp.val = vec.toMatrix()
@@ -50,6 +52,7 @@ def multiplyMatrixVector(vec, mat):
         v = v / m.val[0][3]
     return v
 
+
 def TransposeMatrix(m):
     m1 = Matrix(m.row, m.col)
     for x in range(m.row):
@@ -58,9 +61,11 @@ def TransposeMatrix(m):
 
     return m1
 
+
 def Determinant2x2(matrix):
     # print(matrix.val)
     return matrix.val[0][0] * matrix.val[1][1] - matrix.val[0][1] * matrix.val[1][0]
+
 
 def submatrix(matrix, row, column):
     temp = deepcopy(matrix)
@@ -72,6 +77,7 @@ def submatrix(matrix, row, column):
     # print(temp.val)
     return temp
 
+
 def Minor3x3(matrix, row, column):
     s = submatrix(matrix, row, column)
 
@@ -80,12 +86,14 @@ def Minor3x3(matrix, row, column):
     else:
         return Determinant2x2(s)
 
+
 def Cofactor3x3(matrix, row, column):
     minor = Minor3x3(matrix, row, column)
     if (row + column) % 2 == 0:
         return minor
     else:
         return -minor
+
 
 def Determinant(matrix):
     if matrix.row == 2:
@@ -97,6 +105,7 @@ def Determinant(matrix):
 
             d += c * matrix.val[0][j]
         return d
+
 
 def MatrixInversion(matrix):
     d = Determinant(matrix)
@@ -112,13 +121,41 @@ def MatrixInversion(matrix):
     # print(new.val)
     return new
 
+
 def QuickInverse(m):
     matrix = Matrix()
-    matrix.val[0][0], matrix.val[0][1], matrix.val[0][2], matrix.val[0][3] = m.val[0][0], m.val[1][0], m.val[2][0], 0.0
-    matrix.val[1][0], matrix.val[1][1], matrix.val[1][2], matrix.val[1][3] = m.val[0][1], m.val[1][1], m.val[2][1], 0.0
-    matrix.val[2][0], matrix.val[2][1], matrix.val[2][2], matrix.val[2][3] = m.val[0][2], m.val[1][2], m.val[2][2], 0.0
-    matrix.val[3][0] = -(m.val[3][0] * matrix.val[0][0] + m.val[3][1] * matrix.val[1][0] + m.val[3][2] * matrix.val[2][0])
-    matrix.val[3][1] = -(m.val[3][0] * matrix.val[0][1] + m.val[3][1] * matrix.val[1][1] + m.val[3][2] * matrix.val[2][1])
-    matrix.val[3][2] = -(m.val[3][0] * matrix.val[0][2] + m.val[3][1] * matrix.val[1][2] + m.val[3][2] * matrix.val[2][2])
+    matrix.val[0][0], matrix.val[0][1], matrix.val[0][2], matrix.val[0][3] = (
+        m.val[0][0],
+        m.val[1][0],
+        m.val[2][0],
+        0.0,
+    )
+    matrix.val[1][0], matrix.val[1][1], matrix.val[1][2], matrix.val[1][3] = (
+        m.val[0][1],
+        m.val[1][1],
+        m.val[2][1],
+        0.0,
+    )
+    matrix.val[2][0], matrix.val[2][1], matrix.val[2][2], matrix.val[2][3] = (
+        m.val[0][2],
+        m.val[1][2],
+        m.val[2][2],
+        0.0,
+    )
+    matrix.val[3][0] = -(
+        m.val[3][0] * matrix.val[0][0]
+        + m.val[3][1] * matrix.val[1][0]
+        + m.val[3][2] * matrix.val[2][0]
+    )
+    matrix.val[3][1] = -(
+        m.val[3][0] * matrix.val[0][1]
+        + m.val[3][1] * matrix.val[1][1]
+        + m.val[3][2] * matrix.val[2][1]
+    )
+    matrix.val[3][2] = -(
+        m.val[3][0] * matrix.val[0][2]
+        + m.val[3][1] * matrix.val[1][2]
+        + m.val[3][2] * matrix.val[2][2]
+    )
     matrix.val[3][3] = 1.0
-    return matrix;
+    return matrix

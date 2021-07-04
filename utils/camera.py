@@ -6,7 +6,6 @@ from utils.matrix import *
 import pygame
 
 
-
 class Camera:
     def __init__(self, position, near, far, fov):
         self.position = position
@@ -39,9 +38,9 @@ class Camera:
 
         self.temp = self.target * delta
 
-        if keys[pygame.K_w]: #zoom in
+        if keys[pygame.K_w]:  # zoom in
             self.position += self.temp
-        if keys[pygame.K_s]: #zoom out
+        if keys[pygame.K_s]:  # zoom out
             self.position -= self.temp
         if keys[pygame.K_a]:
             self.yaw -= 0.04

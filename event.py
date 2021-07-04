@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 
+
 def HandleEvent(camera, deltaTime):
     running = True
     for event in pygame.event.get():
