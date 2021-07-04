@@ -1,6 +1,5 @@
 import pygame
-import constants
-
+from constants import *
 
 def HandleEvent(camera, deltaTime):
     running = True
@@ -13,8 +12,8 @@ def HandleEvent(camera, deltaTime):
         if event.type == pygame.MOUSEMOTION:
             if pygame.mouse.get_pressed()[0]:
                 x, y = event.rel
-                x /= constants.mouse_sensitivity
-                y /= constants.mouse_sensitivity
+                x /= mouse_sensitivity
+                y /= mouse_sensitivity
                 camera.HandleMouseEvent(x, y, deltaTime)
 
     return running
