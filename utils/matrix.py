@@ -56,7 +56,7 @@ class Matrix:
         return matrix
 
     @classmethod
-    def rotation_y(cls, angle: float) -> matrix.Matrix:
+    def rotation_y(cls, angle: float) -> Matrix:
         """Construct a matrix which performs a rotation around the y-axis by angle radians
         Arguments:
             angle - angle in radians to for yrotmat to represent.
@@ -132,9 +132,9 @@ class Matrix:
         """
         matrix = cls()
         matrix.val = [
-            [1, 0.0, 0.0, pos.x],
-            [0.0, 1, 0.0, pos.y],
-            [0.0, 0.0, 1, pos.z],
+            [1, 0.0, 0.0, position.x],
+            [0.0, 1, 0.0, position.y],
+            [0.0, 0.0, 1, position.z],
             [0.0, 0.0, 0.0, 1],
         ]
         return matrix

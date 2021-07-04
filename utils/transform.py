@@ -1,8 +1,4 @@
-from math import cos, sin
-import constants
-import utils.vector as vector
 import utils.matrix as matrix
-from utils.camera import Camera
 
 
 # TODO: what are the types of these args ? Vector3 or floats ?

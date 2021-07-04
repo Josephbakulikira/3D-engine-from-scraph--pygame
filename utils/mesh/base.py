@@ -3,7 +3,6 @@ from typing import Optional
 from os import PathLike
 import pygame
 import utils.matrix as matrix
-import utils.transform as transform
 from utils.vector import Vector3
 from utils.triangle import Triangle
 from utils.tools import TriangleClipped, hsv_to_rgb, LoadMesh
