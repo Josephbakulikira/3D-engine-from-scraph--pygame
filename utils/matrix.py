@@ -1,59 +1,72 @@
-from constants import *
-from utils.vector import *
-from math import cos, sin
+from __future__ import annotations
+import utils.vector as vector
 from copy import deepcopy
 
 
 class Matrix:
-    def __init__(self, r=4, c=4):
-        self.row = r
-        self.col = c
-        self.val = [[0 for i in range(self.col)] for j in range(self.row)]
+    def __init__(self, r: int = 4, c: int = 4):
+        self.val = [[0.0 for _ in range(c)] for _ in range(r)]
 
-    def updateInfo(self):
-        self.row = len(self.val)
-        self.col = len(self.val[0])
+    def __repr__(self) -> str:
+        return f"matrix->{self.val}"
 
-    def transpose(self):
-        temp = [[0 for i in range(self.col)] for j in range(self.row)]
+    @property
+    def row(self) -> int:
+        return len(self.val)
+
+    @property
+    def col(self) -> int:
+        return len(self.val[0])
+
+    def transpose(self) -> None:
+        temp = [[0.0 for i in range(self.col)] for j in range(self.row)]
         for x in range(self.row):
             for y in range(self.col):
                 temp[x][y] = self.val[y][x]
         self.val = temp
 
-    def __repr__(self):
-        ## DEBUG
-        return f"matrix->{self.val}"
+    def __matmul__(self, other: Matrix) -> Matrix:
+        rv = Matrix(self.row, other.col)
+
+        if self.col != other.row:
+            raise TypeError(
+                "Matrices incompatible for multiplication, got: "
+                f"{(self.row, self.col)}, {(other.row, other.col)}"
+            )
+
+        for x in range(self.row):
+            for y in range(other.col):
+                _sum = 0.0
+                for z in range(self.col):
+                    _sum += self.val[x][z] * other.val[z][y]
+                rv.val[x][y] = round(_sum, 5)
+
+        return rv
+
+    def submatrix(self, row: int, col: int) -> Matrix:
+        temp = deepcopy(self)
+        del temp.val[row]
+        for i in range(len(temp.val)):
+            del temp.val[i][col]
+
+        return temp
 
 
-def multiplyMatrix(m1, m2):
-    m = Matrix(m1.row, m2.col)
-
-    if m1.col != m2.row:
-        print("we can't this two matricies")
-        return None
-
-    for x in range(m1.row):
-        for y in range(m2.col):
-            sum = 0
-            for z in range(m1.col):
-                sum += m1.val[x][z] * m2.val[z][y]
-            m.val[x][y] = round(sum, 5)
-
-    return m
+def multiplyMatrix(m1: Matrix, m2: Matrix) -> Matrix:
+    return m1 @ m2
 
 
-def multiplyMatrixVector(vec, mat):
+def multiplyMatrixVector(vec: vector.Vector3, mat: Matrix) -> vector.Vector3:
     temp = Matrix(1, 4)
     temp.val = vec.toMatrix()
-    m = multiplyMatrix(temp, mat)
-    v = toVector3(m)
+    m = temp @ mat
+    v = vector.toVector3(m)
     if m.val[0][3] != 0:
         v = v / m.val[0][3]
     return v
 
 
-def TransposeMatrix(m):
+def TransposeMatrix(m: Matrix) -> Matrix:
     m1 = Matrix(m.row, m.col)
     for x in range(m.row):
         for y in range(m.col):
@@ -62,67 +75,55 @@ def TransposeMatrix(m):
     return m1
 
 
-def Determinant2x2(matrix):
-    # print(matrix.val)
+def Determinant2x2(matrix: Matrix) -> float:
     return matrix.val[0][0] * matrix.val[1][1] - matrix.val[0][1] * matrix.val[1][0]
 
 
-def submatrix(matrix, row, column):
-    temp = deepcopy(matrix)
-    del temp.val[row]
-    for i in range(len(temp.val)):
-        del temp.val[i][column]
-
-    temp.updateInfo()
-    # print(temp.val)
-    return temp
+def submatrix(matrix: Matrix, row: int, col: int) -> Matrix:
+    return matrix.submatrix(row, col)
 
 
-def Minor3x3(matrix, row, column):
-    s = submatrix(matrix, row, column)
+def Minor3x3(matrix: Matrix, row: int, col: int) -> float:
+    s = matrix.submatrix(row, col)
 
     if len(s.val) > 2:
         return Determinant(s)
-    else:
-        return Determinant2x2(s)
+    return Determinant2x2(s)
 
 
-def Cofactor3x3(matrix, row, column):
-    minor = Minor3x3(matrix, row, column)
-    if (row + column) % 2 == 0:
+def Cofactor3x3(matrix: Matrix, row: int, col: int) -> float:
+    minor = Minor3x3(matrix, row, col)
+    if not (row + col) % 2:
         return minor
-    else:
-        return -minor
+    return -minor
 
 
-def Determinant(matrix):
+def Determinant(matrix: Matrix) -> float:
     if matrix.row == 2:
-        return Determinant2x2(matrix.val)
-    else:
-        d = 0
-        for j in range(len(matrix.val[0])):
-            c = Cofactor3x3(matrix, 0, j)
+        return Determinant2x2(matrix)
 
-            d += c * matrix.val[0][j]
-        return d
+    d = 0.0
+    for j in range(len(matrix.val[0])):
+        c = Cofactor3x3(matrix, 0, j)
+
+        d += c * matrix.val[0][j]
+    return d
 
 
-def MatrixInversion(matrix):
+def MatrixInversion(matrix: Matrix) -> Matrix:
     d = Determinant(matrix)
-    if d == 0:
-        print("this matrix is not invertible")
-        return None
+    if not d:
+        raise TypeError("Matrix not invertible, must have non-zero determinant.")
 
     new = Matrix(matrix.row, matrix.col)
     for x in range(matrix.row):
         for y in range(matrix.col):
             new.val[x][y] = round(Cofactor3x3(matrix, x, y) / d, 6)
     new.transpose()
-    # print(new.val)
     return new
 
 
-def QuickInverse(m):
+def QuickInverse(m: Matrix) -> Matrix:
     matrix = Matrix()
     matrix.val[0][0], matrix.val[0][1], matrix.val[0][2], matrix.val[0][3] = (
         m.val[0][0],
