@@ -67,22 +67,23 @@ hue = 0
 angle = 0
 moveLight = True
 run = True
+
 while run:
     screen.fill(BackgroundColor)
     clock.tick(fps)
     dt = clock.tick(fps)/100
     frameRate = clock.get_fps()
     pygame.display.set_caption(str(frameRate) + " fps")
-    camera.HandleInput(dt)
     run = HandleEvent(camera, dt)
     hue = 0
+    #handle input
+    camera.HandleInput(dt)
 
     if moveLight == True and light != None:
         mx, my = pygame.mouse.get_pos()
         _x = translateValue( mx, 0,  Width,  -1,  1)
         _y = translateValue( my, 0, Height, -1, 1)
         light = Light(Vector3(-_x, -_y, -1))
-
 
     # apply the transformation matrix here
 
@@ -95,7 +96,7 @@ while run:
                 fill=True, wireframe=False, vertices=False, depth=True, clippingDebug=True,
                 showNormals=False, radius=9, verticeColor=False, wireframeColor=(255, 255, 255), ChangingColor=hue)
 
-                
+
     pygame.display.flip()
     angle += 0.01
 

@@ -17,3 +17,12 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 green = (0, 255, 0)
 yellow = (0, 255, 255)
+
+# axis_offset = 50
+# axis_positions = {
+#     "CENTER": (Width//2, Height//2),
+#     "TOP-LEFT": (axis_offset, axis_offset),
+#     "TOP-RIGHT": (Width-axis_offset, axis_offset),
+#     "BOTTOM-LEFT": (axis_offset, Height-axis_offset),
+#     "BOTTOM-RIGHT": (Width-axis_offset, Height-axis_offset)
+# }

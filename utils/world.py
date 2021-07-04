@@ -29,14 +29,13 @@ class Scene:
         for ob in self.world:
             triangles += ob.update(screen,fill, wireframe, dt, camera, light, depth, clippingDebug, ChangingColor)
 
+        #sort the triangles list based on the average of their z coordinate -> painters algorithm
         def Zsort(val):
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0
-
         triangles.sort(key=Zsort)
+
         normals_length = 250
         normals = []
-
-
 
         for projected in reversed(triangles):
             origin = (projected.vertex1+projected.vertex2+projected.vertex3)/3
@@ -51,7 +50,7 @@ class Scene:
             DrawAxis(screen, camera)
 
         if showNormals == True: #---to fix later
-            # get the normal vector
+            # get the normal vectors
             for i, n in enumerate(normals):
                 endPoint = origins[i] + (n)
                 #pygame.draw.circle(screen, (0,255, 0), endPoint.GetTuple(), 10)

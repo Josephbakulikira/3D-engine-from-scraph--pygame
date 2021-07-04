@@ -128,7 +128,7 @@ def TriangleClipped(pos, normal, triangle, outTriangle, clippingDebug=False):
 
         return 2
 
-def DrawAxis(screen, camera, scale=3,center=None, Xaxis=True, Yaxis=True, Zaxis=True, stroke=5, alpha=100):
+def DrawAxis(screen, camera, scale=3,center=None, Xaxis=True, Yaxis=True, Zaxis=True, stroke=5):
     if center == None:
         center = Point(Vector3(0, 0, 0))
 
