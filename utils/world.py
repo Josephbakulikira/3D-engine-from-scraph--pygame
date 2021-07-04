@@ -1,7 +1,8 @@
-from utils.tools import *
-from utils.vector import *
-from utils.transform import *
-from utils.matrix import *
+import utils.tools as tools
+import utils.vector as vector
+import utils.transform as transform
+import utils.matrix as matrix
+import pygame
 
 
 class Scene:
@@ -29,15 +30,15 @@ class Scene:
     ):
         camera.HandleInput(dt)
 
-        camera.direction = Vector3(0, 0, 1)
-        camera.up = Vector3(0, 1, 0)
-        camera.target = Vector3(0, 0, 1)
-        camera.rotation = RotationY(camera.yaw)
-        camera.direction = multiplyMatrixVector(camera.target, camera.rotation)
+        camera.direction = vector.Vector3(0, 0, 1)
+        camera.up = vector.Vector3(0, 1, 0)
+        camera.target = vector.Vector3(0, 0, 1)
+        camera.rotation = transform.RotationY(camera.yaw)
+        camera.direction = matrix.multiplyMatrixVector(camera.target, camera.rotation)
         camera.target = camera.position + camera.direction
-        lookAtMatrix = PointAt(camera.position, camera.target, camera.up)
-        camera.viewMatrix = QuickInverse(lookAtMatrix)
-        camera.target = Vector3(0, 0, 1)
+        lookAtMatrix = transform.PointAt(camera.position, camera.target, camera.up)
+        camera.viewMatrix = matrix.QuickInverse(lookAtMatrix)
+        camera.target = vector.Vector3(0, 0, 1)
 
         triangles = []
         origins = []
@@ -65,8 +66,8 @@ class Scene:
             origin = (projected.vertex1 + projected.vertex2 + projected.vertex3) / 3
             line1 = projected.vertex2 - projected.vertex1
             line2 = projected.vertex3 - projected.vertex1
-            normal = crossProduct(line1, line2) * normals_length
-            DrawTriangle(
+            normal = vector.crossProduct(line1, line2) * normals_length
+            tools.DrawTriangle(
                 screen,
                 projected,
                 fill,
@@ -81,9 +82,9 @@ class Scene:
             normals.append(normal)
 
         if showAxis:
-            DrawAxis(screen, camera)
+            tools.DrawAxis(screen, camera)
 
-        if showNormals == True:  # ---to fix later
+        if showNormals:  # ---to fix later
             # get the normal vector
             for i, n in enumerate(normals):
                 endPoint = origins[i] + (n)

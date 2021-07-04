@@ -3,47 +3,44 @@
 
 import sys
 import pygame
-from constants import *
+import constants
 from event import HandleEvent
-from utils.transform import *
+import utils.transform as transform
 from utils.vector import Vector3
 from utils.camera import Camera
 from utils.light import Light
 from utils.mesh.base import Mesh
-from utils.mesh.meshes import *
-from utils.mesh.spheres import *
-from utils.mesh.point import *
-from utils.matrix import *
-from utils.tools import *
+import utils.mesh.meshes as meshes
+import utils.mesh.spheres as spheres
+import utils.matrix as matrix
+import utils.tools as tools
 from utils.world import Scene
-from math import pi
 
-screen = pygame.display.set_mode(Size)
+screen = pygame.display.set_mode(constants.Size)
 clock = pygame.time.Clock()
 fps = 60
 
 # mouse setup
 pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
-a = pygame.event.set_grab(False)
 
 # create mesh
 Deer = Mesh()
-Deer.triangles = LoadMesh("./assets/deer.obj", (186, 135, 89))
+Deer.triangles = tools.LoadMesh("./assets/deer.obj", (186, 135, 89))
 
 teapot = Mesh()
-teapot.triangles = LoadMesh("./assets/utahteapot.obj", (255, 255, 0))
+teapot.triangles = tools.LoadMesh("./assets/utahteapot.obj", (255, 255, 0))
 
 cube = Mesh()
-cube.triangles = CubeTriangles((240, 84, 84))
+cube.triangles = meshes.CubeTriangles((240, 84, 84))
 cube.position = Vector3(5, -2, 0)
 
 sphere = Mesh()
-sphere.triangles = IcosphereTriangles((246, 131, 15), 2)
+sphere.triangles = spheres.IcosphereTriangles((246, 131, 15), 2)
 sphere.position = Vector3(0, 0, 0)
 
 torus = Mesh()
-torus.triangles = LoadMesh("./assets/torus.obj", (56, 147, 147))
+torus.triangles = tools.LoadMesh("./assets/torus.obj", (56, 147, 147))
 torus.position = Vector3(-3, -2, 0)
 
 # create scene and the world
@@ -67,7 +64,7 @@ angle = 0
 moveLight = True
 run = True
 while run:
-    screen.fill(BackgroundColor)
+    screen.fill(constants.BackgroundColor)
     clock.tick(fps)
     dt = clock.tick(fps) / 100
     frameRate = clock.get_fps()
@@ -76,17 +73,22 @@ while run:
     run = HandleEvent(camera, dt)
     hue = 0
 
-    if moveLight == True and light != None:
+    if moveLight and light is not None:
         mx, my = pygame.mouse.get_pos()
-        _x = translateValue(mx, 0, Width, -1, 1)
-        _y = translateValue(my, 0, Height, -1, 1)
+        _x = tools.translateValue(mx, 0, constants.Width, -1, 1)
+        _y = tools.translateValue(my, 0, constants.Height, -1, 1)
         light = Light(Vector3(-_x, -_y, -1))
 
     # apply the transformation matrix here
-    torus.transform = multiplyMatrix(RotationX(angle), ScalingMatrix(1.9))
-    cube.transform = multiplyMatrix(RotationY(angle), ScalingMatrix(1.2))
-    sphere.transform = multiplyMatrix(
-        RotationX(angle), multiplyMatrix(RotationY(angle), ScalingMatrix(1.4))
+    torus.transform = matrix.multiplyMatrix(
+        transform.RotationX(angle), transform.ScalingMatrix(1.9)
+    )
+    cube.transform = matrix.multiplyMatrix(
+        transform.RotationY(angle), transform.ScalingMatrix(1.2)
+    )
+    sphere.transform = matrix.multiplyMatrix(
+        transform.RotationX(angle),
+        matrix.multiplyMatrix(transform.RotationY(angle), transform.ScalingMatrix(1.4)),
     )
 
     # display scene

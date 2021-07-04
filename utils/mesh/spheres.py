@@ -1,7 +1,6 @@
-from utils.mesh.base import Mesh
 from utils.triangle import Triangle
-from utils.vector import Vector3, Vector2, Normalize
-from math import sin, cos, pi, sqrt, acos
+from utils.vector import Vector3, Normalize
+from math import sin, cos, pi, sqrt
 
 
 def SphereTriangles(color, n_subdivision=10, radius=1):

@@ -1,7 +1,5 @@
-from utils.mesh.base import Mesh
 from utils.triangle import Triangle
-from utils.vector import Vector3, Vector2
-from math import sin, cos, pi
+from utils.vector import Vector3
 
 
 def translate(value, min1, max1, min2, max2):

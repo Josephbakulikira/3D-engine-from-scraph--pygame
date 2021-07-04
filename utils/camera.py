@@ -1,8 +1,6 @@
 from math import tan, pi
-from constants import *
-from utils.vector import *
-from utils.transform import *
-from utils.matrix import *
+import utils.vector as vector
+import utils.transform as transform
 import pygame
 
 
@@ -15,13 +13,13 @@ class Camera:
         self.yaw = 0
         self.phi = 0
         self.tangent = 1.0 / tan(self.fov * 0.5 / 180 * pi)
-        self.direction = Vector3()
-        self.up = Vector3()
-        self.transform = identityMatrix()
+        self.direction = vector.Vector3()
+        self.up = vector.Vector3()
+        self.transform = transform.identityMatrix()
         self.target = position
         self.speed = 0.1
         self.rotationSpeed = 1.5
-        self.temp = Vector3()
+        self.temp = vector.Vector3()
 
     def HandleInput(self, dt):
         keys = pygame.key.get_pressed()

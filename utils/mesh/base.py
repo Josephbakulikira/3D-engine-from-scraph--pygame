@@ -1,9 +1,9 @@
-from utils.matrix import *
-from utils.transform import *
+import utils.matrix as matrix
+import utils.transform as transform
 from utils.vector import Vector3, crossProduct, dotProduct, Normalize
 from utils.triangle import Triangle
-from utils.tools import DrawTriangle, TriangleClipped, hsv2rgb
-from constants import Width, Height, Zoffset, clipping
+from utils.tools import TriangleClipped, hsv_to_rgb
+from constants import Width, Height, Zoffset, clipping, dim
 import pygame
 
 
@@ -12,27 +12,26 @@ class Mesh:
         self.triangles = []
         self.position = Vector3()
         self.color = (255, 255, 255)
-        self.transform = identityMatrix()
-        self.translate = identityMatrix()
+        self.transform = transform.identityMatrix()
+        self.translate = transform.identityMatrix()
 
     def update(
         self, screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0
     ):
         tris = []
-        normals = []
 
         for index, triangle in enumerate(self.triangles):
             projected = Triangle()
             projected.verticeColor = triangle.verticeColor
             transformed = Triangle()
 
-            transformed.vertex1 = multiplyMatrixVector(
+            transformed.vertex1 = matrix.multiplyMatrixVector(
                 triangle.vertex1 + self.position, self.transform
             )
-            transformed.vertex2 = multiplyMatrixVector(
+            transformed.vertex2 = matrix.multiplyMatrixVector(
                 triangle.vertex2 + self.position, self.transform
             )
-            transformed.vertex3 = multiplyMatrixVector(
+            transformed.vertex3 = matrix.multiplyMatrixVector(
                 triangle.vertex3 + self.position, self.transform
             )
 
@@ -47,28 +46,25 @@ class Mesh:
 
             temp = transformed.vertex1 - camera.position
             d = dotProduct(temp, normal)
-            if d < 0.0 or depth == False:
+            if d < 0.0 or not depth:
                 if hue != 0:
-                    triangle.color = hsv2rgb(hue, 1, 1)
-
-                # print(normal)
+                    triangle.color = hsv_to_rgb(hue, 1, 1)
 
                 # directional light -> illumination
-                # dim = 0.0001
                 _light = (
                     max(dim, dotProduct(light.direction, normal))
-                    if light != None
+                    if light is not None
                     else 1
                 )
                 transformed.color = triangle.Shade(_light)
 
-                transformed.vertex1 = multiplyMatrixVector(
+                transformed.vertex1 = matrix.multiplyMatrixVector(
                     transformed.vertex1, camera.viewMatrix
                 )
-                transformed.vertex2 = multiplyMatrixVector(
+                transformed.vertex2 = matrix.multiplyMatrixVector(
                     transformed.vertex2, camera.viewMatrix
                 )
-                transformed.vertex3 = multiplyMatrixVector(
+                transformed.vertex3 = matrix.multiplyMatrixVector(
                     transformed.vertex3, camera.viewMatrix
                 )
 
@@ -83,16 +79,15 @@ class Mesh:
                 )
 
                 for i in range(clipped):
-                    # print(clippedTriangles)
                     # project to 2D screen
-                    projected.vertex1 = multiplyMatrixVector(
-                        clippedTriangles[i].vertex1, ProjectionMatrix(camera)
+                    projected.vertex1 = matrix.multiplyMatrixVector(
+                        clippedTriangles[i].vertex1, transform.ProjectionMatrix(camera)
                     )
-                    projected.vertex2 = multiplyMatrixVector(
-                        clippedTriangles[i].vertex2, ProjectionMatrix(camera)
+                    projected.vertex2 = matrix.multiplyMatrixVector(
+                        clippedTriangles[i].vertex2, transform.ProjectionMatrix(camera)
                     )
-                    projected.vertex3 = multiplyMatrixVector(
-                        clippedTriangles[i].vertex3, ProjectionMatrix(camera)
+                    projected.vertex3 = matrix.multiplyMatrixVector(
+                        clippedTriangles[i].vertex3, transform.ProjectionMatrix(camera)
                     )
 
                     projected.color = clippedTriangles[i].color
@@ -106,14 +101,10 @@ class Mesh:
                     projected.vertex2 = projected.vertex2 + offsetView
                     projected.vertex3 = projected.vertex3 + offsetView
 
-                    # half_v1 = projected.vertex1 / 2
-                    # half_v2 = projected.vertex2 / 2
-                    # half_v3 = projected.vertex3 / 2
-
                     projected.vertex1 *= Vector3(Width, Height, 1) * 0.5
                     projected.vertex2 *= Vector3(Width, Height, 1) * 0.5
                     projected.vertex3 *= Vector3(Width, Height, 1) * 0.5
-                    if i == 0 and wireframe == True:
+                    if not i and wireframe:
                         pygame.draw.line(
                             screen,
                             (255, 255, 255),
@@ -135,14 +126,12 @@ class Mesh:
                             projected.vertex1.GetTuple(),
                             1,
                         )
-                        # pygame.draw.polygon(screen, projected.color, projected.GetPolygons())
-                    if i == 0 and fill == True:
+                    if not i and fill:
                         # have to fix this part
                         pygame.draw.polygon(
                             screen, projected.color, projected.GetPolygons()
                         )
 
                     tris.append(projected)
-                    # DrawTriangle(screen, projected, Fill, wireframe, wireframeColor)
 
         return tris

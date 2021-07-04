@@ -1,5 +1,6 @@
 from utils.vector import Normalize
 
+
 # simple directional light
 class Light:
     def __init__(self, position):

@@ -1,13 +1,17 @@
 import pygame
-from utils.vector import *
+import utils.vector as vector
 from utils.triangle import Triangle
-from constants import *
-from utils.mesh.point import *
+import constants
+import utils.mesh.point as point
 import colorsys
+from os import PathLike
 
 
-def hsv_to_rgb(h, s, v):
-    return tuple(round(i * 255) for i in colorsys.hsv_to_rgb(h, s, v))
+def hsv_to_rgb(h, s, v) -> tuple[int, int, int]:
+    rgb = tuple(round(i * 255) for i in colorsys.hsv_to_rgb(h, s, v))
+
+    # awkward return statement expression due to mypy appeasement, should revisit
+    return (rgb[0], rgb[1], rgb[2])
 
 
 def DrawTriangle(
@@ -22,11 +26,10 @@ def DrawTriangle(
     lineWidth,
 ):
 
-    if fill == True:
-        # print(triangle.color)
+    if fill:
         pygame.draw.polygon(screen, triangle.color, triangle.GetPolygons())
 
-    if wireframe == True:
+    if wireframe:
         pygame.draw.line(
             screen,
             wireframeColor,
@@ -49,19 +52,17 @@ def DrawTriangle(
             lineWidth,
         )
 
-    if vertices == True:
-        color = (255, 255, 255) if verticeColor == False else triangle.verticeColor
+    if vertices:
+        color = (255, 255, 255) if not verticeColor else triangle.verticeColor
 
         pygame.draw.circle(screen, color, triangle.vertex1.GetTuple(), radius)
         pygame.draw.circle(screen, color, triangle.vertex2.GetTuple(), radius)
         pygame.draw.circle(screen, color, triangle.vertex3.GetTuple(), radius)
 
 
-def hsv2rgb(h, s, v):
-    return tuple(round(i * 255) for i in colorsys.hsv_to_rgb(h, s, v))
-
-
-def LoadMesh(objectPath, color=(255, 255, 255)):
+def LoadMesh(
+    objectPath: PathLike, color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Triangle]:
     vert_data = []
     triangle_indices = []
     data = None
@@ -73,11 +74,13 @@ def LoadMesh(objectPath, color=(255, 255, 255)):
 
     # get data
     for _line in data:
-        _line = _line.split(" ")
-        if _line[0] == "v":
-            vert_data.append(Vector3(float(_line[1]), float(_line[2]), float(_line[3])))
-        elif _line[0] == "f":
-            temp = _line[1:]
+        line = _line.split(" ")
+        if line[0] == "v":
+            vert_data.append(
+                vector.Vector3(float(line[1]), float(line[2]), float(line[3]))
+            )
+        elif line[0] == "f":
+            temp = line[1:]
             line_indices = []
             for el in temp:
                 indexList = el.split("/")
@@ -98,15 +101,16 @@ def translateValue(value, min1, max1, min2, max2):
 
 
 def SignedDist(pos, normal, p):
-    n = Normalize(pos)
     return (
-        normal.x * pos.x + normal.y * pos.y + normal.z * pos.z - dotProduct(normal, p)
+        normal.x * pos.x
+        + normal.y * pos.y
+        + normal.z * pos.z
+        - vector.dotProduct(normal, p)
     )
 
 
+# TODO: there is way too much going on in this function, needs to be refactored
 def TriangleClipped(pos, normal, triangle, outTriangle, clippingDebug=False):
-    # normal = Normalize(normal)
-
     insidePoints, insideCount = [None for _ in range(3)], 0
     outsidePoints, outsideCount = [None for _ in range(3)], 0
 
@@ -139,37 +143,32 @@ def TriangleClipped(pos, normal, triangle, outTriangle, clippingDebug=False):
         return 0
     if insideCount == 3:
         outTriangle[0] = triangle
-
         return 1
 
     if insideCount == 1 and outsideCount == 2:
-        # outTriangle[0].color = (0, 255,24)
-        outTriangle[0].color = triangle.color if clippingDebug == False else red
+        outTriangle[0].color = triangle.color if not clippingDebug else constants.red
 
         outTriangle[0].vertex1 = insidePoints[0]
-        outTriangle[0].vertex2 = PlaneLineIntersection(
+        outTriangle[0].vertex2 = vector.PlaneLineIntersection(
             pos, normal, insidePoints[0], outsidePoints[0]
         )
-        outTriangle[0].vertex3 = PlaneLineIntersection(
+        outTriangle[0].vertex3 = vector.PlaneLineIntersection(
             pos, normal, insidePoints[0], outsidePoints[1]
         )
         return 1
 
     if insideCount == 2 and outsideCount == 1:
-
-        # outTriangle[0].color = (55, 60, 255)
-        # outTriangle[1].color = (255,51, 12)
-        outTriangle[0].color = triangle.color if clippingDebug == False else blue
-        outTriangle[1].color = triangle.color if clippingDebug == False else green
+        outTriangle[0].color = triangle.color if not clippingDebug else constants.blue
+        outTriangle[1].color = triangle.color if not clippingDebug else constants.green
         outTriangle[0].vertex1 = insidePoints[1]
         outTriangle[0].vertex2 = insidePoints[0]
-        outTriangle[0].vertex3 = PlaneLineIntersection(
+        outTriangle[0].vertex3 = vector.PlaneLineIntersection(
             pos, normal, insidePoints[0], outsidePoints[0]
         )
 
         outTriangle[1].vertex1 = insidePoints[1]
         outTriangle[1].vertex2 = outTriangle[0].vertex3
-        outTriangle[1].vertex3 = PlaneLineIntersection(
+        outTriangle[1].vertex3 = vector.PlaneLineIntersection(
             pos, normal, insidePoints[1], outsidePoints[0]
         )
 
@@ -187,12 +186,12 @@ def DrawAxis(
     stroke=5,
     alpha=100,
 ):
-    if center == None:
-        center = Point(Vector3(0, 0, 0))
+    if center is None:
+        center = point.Point(vector.Vector3(0, 0, 0))
 
-    X = Point(Vector3(scale, 0, 0), (255, 0, 0))
-    Y = Point(Vector3(0, scale, 0), (0, 255, 0))
-    Z = Point(Vector3(0, 0, scale), (0, 0, 255))
+    X = point.Point(vector.Vector3(scale, 0, 0), (255, 0, 0))
+    Y = point.Point(vector.Vector3(0, scale, 0), (0, 255, 0))
+    Z = point.Point(vector.Vector3(0, 0, scale), (0, 0, 255))
     origin = center.update(screen, camera)
 
     if Xaxis:
