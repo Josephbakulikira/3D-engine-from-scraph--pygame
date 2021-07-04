@@ -17,7 +17,7 @@
 ### Support .obj files although the zsorting isn't working properly
 ![DeerGIF](https://user-images.githubusercontent.com/48150537/121646510-06faf980-cab3-11eb-9edf-b26271163645.gif)
 ---
-### Directional Light
+### Directional lighting
 
               light = Light(position)
               # to disable the light in the scene you can set the light = None
