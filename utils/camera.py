@@ -17,7 +17,7 @@ class Camera:
         self.tangent = 1.0 / tan(self.fov * 0.5 / 180 * pi)
         self.direction = vector.Vector3()
         self.up = vector.Vector3()
-        self.transform = transform.identityMatrix()
+        self.transform = Matrix.identity()
         self.target = position
         self.speed = speed
         self.rotationSpeed = rotation_speed

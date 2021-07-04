@@ -3,7 +3,6 @@ from typing import Optional
 from os import PathLike
 import pygame
 import utils.matrix as matrix
-import utils.transform as transform
 from utils.vector import Vector3
 from utils.triangle import Triangle
 from utils.tools import TriangleClipped, hsv_to_rgb, LoadMesh
@@ -17,8 +16,8 @@ class Mesh:
         self.triangles = triangles
         self.position = position if position is not None else Vector3()
         self.color = (255, 255, 255)
-        self.transform = transform.identityMatrix()
-        self.translate = transform.identityMatrix()
+        self.transform = matrix.Matrix.identity()
+        self.translate = matrix.Matrix.identity()
 
     @classmethod
     def from_file(

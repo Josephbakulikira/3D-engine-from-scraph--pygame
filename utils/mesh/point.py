@@ -1,6 +1,5 @@
 import pygame
 import utils.matrix as matrix
-import utils.transform as transform
 from utils.vector import Vector3
 from constants import Width, Height, Zoffset
 from utils.camera import Camera
@@ -16,7 +15,7 @@ class Point:
         self.position = position
         self.color = color
         self.radius = radius
-        self.transform = transform.identityMatrix()
+        self.transform = matrix.Matrix.identity()
 
     def update(
         self, screen: pygame.Surface, camera: Camera, showPoint: bool = False
