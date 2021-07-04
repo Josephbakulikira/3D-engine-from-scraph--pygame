@@ -37,7 +37,7 @@ class Scene:
         camera.direction = matrix.multiplyMatrixVector(camera.target, camera.rotation)
         camera.target = camera.position + camera.direction
         lookAtMatrix = transform.PointAt(camera.position, camera.target, camera.up)
-        camera.viewMatrix = matrix.QuickInverse(lookAtMatrix)
+        camera.viewMatrix = lookAtMatrix.quick_inv()
         camera.target = vector.Vector3(0, 0, 1)
 
         triangles = []

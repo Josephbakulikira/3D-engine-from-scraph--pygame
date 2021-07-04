@@ -12,7 +12,6 @@ from utils.light import Light
 from utils.mesh.base import Mesh
 import utils.mesh.meshes as meshes
 import utils.mesh.spheres as spheres
-import utils.matrix as matrix
 import utils.tools as tools
 from utils.world import Scene
 
@@ -80,15 +79,10 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
     # apply the transformation matrix here
-    torus.transform = matrix.multiplyMatrix(
-        transform.RotationX(angle), transform.ScalingMatrix(1.9)
-    )
-    cube.transform = matrix.multiplyMatrix(
-        transform.RotationY(angle), transform.ScalingMatrix(1.2)
-    )
-    sphere.transform = matrix.multiplyMatrix(
-        transform.RotationX(angle),
-        matrix.multiplyMatrix(transform.RotationY(angle), transform.ScalingMatrix(1.4)),
+    torus.transform = transform.RotationX(angle) @ transform.ScalingMatrix(1.9)
+    cube.transform = transform.RotationY(angle) @ transform.ScalingMatrix(1.2)
+    sphere.transform = transform.RotationX(angle) @ (
+        transform.RotationY(angle) @ transform.ScalingMatrix(1.4)
     )
 
     # display scene
