@@ -17,8 +17,8 @@ class Mesh:
         self.triangles = triangles
         self.position = position if position is not None else Vector3()
         self.color = (255, 255, 255)
-        self.transform = transform.identityMatrix()
-        self.translate = transform.identityMatrix()
+        self.transform = matrix.Matrix.identity()
+        self.translate = matrix.Matrix.identity()
 
     @classmethod
     def from_file(

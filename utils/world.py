@@ -33,7 +33,7 @@ class Scene:
         camera.direction = vector.Vector3(0, 0, 1)
         camera.up = vector.Vector3(0, 1, 0)
         camera.target = vector.Vector3(0, 0, 1)
-        camera.rotation = transform.RotationY(camera.yaw)
+        camera.rotation = matrix.Matrix.rotation_y(camera.yaw)
         camera.direction = matrix.multiplyMatrixVector(camera.target, camera.rotation)
         camera.target = camera.position + camera.direction
         lookAtMatrix = transform.PointAt(camera.position, camera.target, camera.up)

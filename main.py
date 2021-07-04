@@ -12,6 +12,7 @@ from utils.light import Light
 from utils.mesh.base import Mesh
 import utils.tools as tools
 from utils.world import Scene
+from utils.matrix import Matrix
 
 screen = pygame.display.set_mode(constants.Size)
 clock = pygame.time.Clock()
@@ -58,10 +59,10 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
     # apply the transformation matrix here
-    torus.transform = transform.RotationX(angle) @ transform.ScalingMatrix(1.9)
-    cube.transform = transform.RotationY(angle) @ transform.ScalingMatrix(1.2)
-    sphere.transform = transform.RotationX(angle) @ (
-        transform.RotationY(angle) @ transform.ScalingMatrix(1.4)
+    torus.transform = Matrix.rotation_x(angle) @ Matrix.scaling(1.9)
+    cube.transform = Matrix.rotation_y(angle) @ Matrix.scaling(1.2)
+    sphere.transform = Matrix.rotation_x(angle) @ (
+        Matrix.rotation_y(angle) @ Matrix.scaling(1.4)
     )
 
     # display scene

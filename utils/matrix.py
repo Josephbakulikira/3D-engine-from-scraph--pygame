@@ -3,6 +3,7 @@ standard operations, as well as other utility functions.
 """
 from __future__ import annotations
 from copy import deepcopy
+from math import cos, sin
 from utils.vector import Vector3
 
 
@@ -36,6 +37,107 @@ class Matrix:
         rv = cls(1, 4)
         rv.val = [[vec.x, vec.y, vec.z, vec.w]]
         return rv
+
+    @classmethod
+    def rotation_x(cls, angle: float) -> Matrix:
+        """Construct a matrix which performs a rotation around the x-axis by angle radians
+        Arguments:
+            angle - angle in radians to for xrotmat to represent.
+        Returns:
+            Matrix - angle rotation around x-axis Matrix
+        """
+        matrix = cls()
+        matrix.val = [
+            [1, 0.0, 0.0, 0.0],
+            [0.0, cos(angle), sin(angle), 0.0],
+            [0.0, -sin(angle), cos(angle), 0.0],
+            [0.0, 0.0, 0.0, 1],
+        ]
+        return matrix
+
+    @classmethod
+    def rotation_y(cls, angle: float) -> matrix.Matrix:
+        """Construct a matrix which performs a rotation around the y-axis by angle radians
+        Arguments:
+            angle - angle in radians to for yrotmat to represent.
+        Returns:
+            Matrix - angle rotation around y-axis Matrix
+        """
+        matrix = cls()
+        matrix.val = [
+            [cos(angle), 0.0, -sin(angle), 0.0],
+            [0.0, 1, 0.0, 0.0],
+            [sin(angle), 0.0, cos(angle), 0.0],
+            [0.0, 0.0, 0.0, 1],
+        ]
+        return matrix
+
+    @classmethod
+    def rotation_z(cls, angle: float) -> Matrix:
+        """Construct a matrix which performs a rotation around the z-axis by angle radians
+        Arguments:
+            angle - angle in radians to for zrotmat to represent.
+        Returns:
+            Matrix - angle rotation around z-axis Matrix
+        """
+        matrix = cls()
+        matrix.val = [
+            [cos(angle), sin(angle), 0.0, 0.0],
+            [-sin(angle), cos(angle), 0.0, 0.0],
+            [0.0, 0.0, 1, 0.0],
+            [0.0, 0.0, 0.0, 1],
+        ]
+        return matrix
+
+    @classmethod
+    def scaling(cls, scale: float) -> Matrix:
+        """Construct a scaling matrix for the given scale factor.
+        Arguments:
+            scale - float, the scale value for Matrix to be constructed for
+        Returns:
+            Matrix - the scaling Matrix
+        """
+        matrix = cls()
+        matrix.val = [
+            [scale, 0.0, 0.0, 0.0],
+            [0.0, scale, 0.0, 0.0],
+            [0.0, 0.0, scale, 0.0],
+            [0.0, 0.0, 0.0, 1],
+        ]
+        return matrix
+
+    @classmethod
+    def identity(cls, size: int = 4) -> Matrix:
+        """Construct an identity matrix of the given size. Defined as a square matrix
+        with 1s on the main diagonal, and 0s elsewhere.
+        Arguments:
+            size - int, the size of the identity matrix.
+        Returns:
+            Matrix - the specified identity matrix.
+        """
+        matrix = cls()
+        matrix.val = [
+            [1.0 if i == j else 0.0 for j in range(size)] for i in range(size)
+        ]
+        return matrix
+
+    @classmethod
+    def translate(cls, position: Vector3) -> Matrix:
+        """Construct a Matrix that performs a translation specified by the give
+        position.
+        Arguments:
+            position - the Vector3 to construct translation matrix by.
+        Returns:
+            Matrix - the constructed translation Matrix.
+        """
+        matrix = cls()
+        matrix.val = [
+            [1, 0.0, 0.0, pos.x],
+            [0.0, 1, 0.0, pos.y],
+            [0.0, 0.0, 1, pos.z],
+            [0.0, 0.0, 0.0, 1],
+        ]
+        return matrix
 
     def __matmul__(self, other: Matrix) -> Matrix:
         """Support for self @ other, defined as matrix multiplication.

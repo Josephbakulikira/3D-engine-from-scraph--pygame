@@ -16,7 +16,7 @@ class Point:
         self.position = position
         self.color = color
         self.radius = radius
-        self.transform = transform.identityMatrix()
+        self.transform = matrix.Matrix.identity()
 
     def update(
         self, screen: pygame.Surface, camera: Camera, showPoint: bool = False
