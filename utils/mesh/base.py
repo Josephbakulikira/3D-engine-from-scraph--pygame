@@ -1,19 +1,52 @@
+from __future__ import annotations
 import utils.matrix as matrix
 import utils.transform as transform
 from utils.vector import Vector3
 from utils.triangle import Triangle
-from utils.tools import TriangleClipped, hsv_to_rgb
+from utils.tools import TriangleClipped, hsv_to_rgb, LoadMesh
 from constants import Width, Height, Zoffset, clipping, dim
 import pygame
+from os import PathLike
+import utils.mesh.meshes as meshes
+import utils.mesh.spheres as spheres
+from typing import Optional
 
 
 class Mesh:
-    def __init__(self):
-        self.triangles = []
-        self.position = Vector3()
+    def __init__(self, triangles: list[Triangle], position: Optional[Vector3] = None):
+        self.triangles = triangles
+        self.position = position if position is not None else Vector3()
         self.color = (255, 255, 255)
         self.transform = transform.identityMatrix()
         self.translate = transform.identityMatrix()
+
+    @classmethod
+    def from_file(
+        cls,
+        fname: PathLike,
+        color: tuple[int, int, int],
+        position: Optional[Vector3] = None,
+    ) -> Mesh:
+        triangles = LoadMesh(fname, color)
+        return cls(triangles, position)
+
+    @classmethod
+    def cube(
+        cls, color: tuple[int, int, int], position: Optional[Vector3] = None
+    ) -> Mesh:
+        tris = meshes.CubeTriangles(color)
+        return cls(tris, position)
+
+    @classmethod
+    def icosphere(
+        cls,
+        color: tuple[int, int, int],
+        subdivision=0,
+        radius=1,
+        position: Optional[Vector3] = None,
+    ) -> Mesh:
+        tris = spheres.IcosphereTriangles(color, subdivision, radius)
+        return cls(tris, position)
 
     def update(
         self, screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0

@@ -24,23 +24,11 @@ pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
 
 # create mesh
-Deer = Mesh()
-Deer.triangles = tools.LoadMesh("./assets/deer.obj", (186, 135, 89))
-
-teapot = Mesh()
-teapot.triangles = tools.LoadMesh("./assets/utahteapot.obj", (255, 255, 0))
-
-cube = Mesh()
-cube.triangles = meshes.CubeTriangles((240, 84, 84))
-cube.position = Vector3(5, -2, 0)
-
-sphere = Mesh()
-sphere.triangles = spheres.IcosphereTriangles((246, 131, 15), 2)
-sphere.position = Vector3(0, 0, 0)
-
-torus = Mesh()
-torus.triangles = tools.LoadMesh("./assets/torus.obj", (56, 147, 147))
-torus.position = Vector3(-3, -2, 0)
+Deer = Mesh.from_file("./assets/deer.obj", (186, 135, 89))
+teapot = Mesh.from_file("./assets/utahteapot.obj", (255, 255, 0))
+cube = Mesh.cube((240, 84, 84), Vector3(5, -2, 0))
+sphere = Mesh.icosphere((246, 131, 15), 2)
+torus = Mesh.from_file("./assets/torus.obj", (56, 147, 147), Vector3(-3, -2, 0))
 
 # create scene and the world
 scene = Scene()
