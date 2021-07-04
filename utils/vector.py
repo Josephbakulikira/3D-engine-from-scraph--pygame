@@ -1,6 +1,7 @@
 from __future__ import annotations
 from math import sqrt
 from typing import Union
+from utils.matrix import Matrix
 
 
 class Vector3:
@@ -12,6 +13,10 @@ class Vector3:
 
     def __repr__(self) -> str:
         return f" vec3-> ({self.x}, {self.y}, {self.z})"
+
+    @classmethod
+    def from_matrix(cls, matrix: Matrix) -> Vector3:
+        return cls(matrix.val[0][0], matrix.val[0][1], matrix.val[0][2])
 
     def __add__(self, other: Union[Vector3, float]) -> Vector3:
         if isinstance(other, Vector3):
@@ -90,31 +95,11 @@ class Vector2:
         return sqrt((self.x ** 2) + (self.y ** 2))
 
 
-def toVector3(matrix) -> Vector3:
-    return Vector3(matrix.val[0][0], matrix.val[0][1], matrix.val[0][2])
-
-
-def crossProduct(a: Vector3, b: Vector3) -> Vector3:
-    return a.cross(b)
-
-
-def dotProduct(a: Vector3, b: Vector3) -> float:
-    return a.dot(b)
-
-
-def GetMagnitude(a: Vector3) -> float:
-    return a.mag()
-
-
-def Normalize(a: Vector3) -> Vector3:
-    return a.norm()
-
-
 def PlaneLineIntersection(pos, normal, lineStart, lineEnd):
-    normal = Normalize(normal)
-    p = -dotProduct(normal, pos)
-    ad = dotProduct(lineStart, normal)
-    bd = dotProduct(lineEnd, normal)
+    normal = normal.norm()
+    p = -normal.dot(pos)
+    ad = lineStart.dot(normal)
+    bd = lineEnd.dot(normal)
     t = (-p - ad) / (bd - ad)
     lineStartEnd = lineEnd - lineStart
     lineTointersect = lineStartEnd * t

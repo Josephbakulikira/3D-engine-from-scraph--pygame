@@ -60,7 +60,7 @@ def multiplyMatrixVector(vec: vector.Vector3, mat: Matrix) -> vector.Vector3:
     temp = Matrix(1, 4)
     temp.val = vec.toMatrix()
     m = temp @ mat
-    v = vector.toVector3(m)
+    v = vector.Vector3.from_matrix(m)
     if m.val[0][3] != 0:
         v = v / m.val[0][3]
     return v

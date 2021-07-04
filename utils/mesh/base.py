@@ -1,6 +1,6 @@
 import utils.matrix as matrix
 import utils.transform as transform
-from utils.vector import Vector3, crossProduct, dotProduct, Normalize
+from utils.vector import Vector3
 from utils.triangle import Triangle
 from utils.tools import TriangleClipped, hsv_to_rgb
 from constants import Width, Height, Zoffset, clipping, dim
@@ -42,19 +42,17 @@ class Mesh:
             # get the normal vector
             line1 = transformed.vertex2 - transformed.vertex1
             line2 = transformed.vertex3 - transformed.vertex1
-            normal = Normalize(crossProduct(line1, line2))
+            normal = line1.cross(line2).norm()
 
             temp = transformed.vertex1 - camera.position
-            d = dotProduct(temp, normal)
+            d = temp.dot(normal)
             if d < 0.0 or not depth:
                 if hue != 0:
                     triangle.color = hsv_to_rgb(hue, 1, 1)
 
                 # directional light -> illumination
                 _light = (
-                    max(dim, dotProduct(light.direction, normal))
-                    if light is not None
-                    else 1
+                    max(dim, light.direction.dot(normal)) if light is not None else 1
                 )
                 transformed.color = triangle.Shade(_light)
 

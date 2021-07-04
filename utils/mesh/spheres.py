@@ -1,5 +1,5 @@
 from utils.triangle import Triangle
-from utils.vector import Vector3, Normalize
+from utils.vector import Vector3
 from math import sin, cos, pi, sqrt
 
 
@@ -62,7 +62,7 @@ def GetMiddlePoint(vec1, vec2, vertices, middlePointCache):
     vertex1 = vertices[a]
     vertex2 = vertices[b]
 
-    middle = Normalize((vertex1 + vertex2) / 2)
+    middle = ((vertex1 + vertex2) / 2).norm()
     vertices.append(middle)
 
     _index = vertices.index(middle)
@@ -76,18 +76,18 @@ def IcosphereTriangles(color=(255, 255, 255), subdivision=0, radius=1):
     g = (1 + sqrt(5)) / 2  # golden ratio
 
     vertices = [
-        Normalize(Vector3(-1, g, 0)),
-        Normalize(Vector3(1, g, 0)),
-        Normalize(Vector3(-1, -g, 0)),
-        Normalize(Vector3(1, -g, 0)),
-        Normalize(Vector3(0, -1, g)),
-        Normalize(Vector3(0, 1, g)),
-        Normalize(Vector3(0, -1, -g)),
-        Normalize(Vector3(0, 1, -g)),
-        Normalize(Vector3(g, 0, -1)),
-        Normalize(Vector3(g, 0, 1)),
-        Normalize(Vector3(-g, 0, -1)),
-        Normalize(Vector3(-g, 0, 1)),
+        Vector3(-1, g, 0).norm(),
+        Vector3(1, g, 0).norm(),
+        Vector3(-1, -g, 0).norm(),
+        Vector3(1, -g, 0).norm(),
+        Vector3(0, -1, g).norm(),
+        Vector3(0, 1, g).norm(),
+        Vector3(0, -1, -g).norm(),
+        Vector3(0, 1, -g).norm(),
+        Vector3(g, 0, -1).norm(),
+        Vector3(g, 0, 1).norm(),
+        Vector3(-g, 0, -1).norm(),
+        Vector3(-g, 0, 1).norm(),
     ]
     triangles = [
         # 5 faces around point 0

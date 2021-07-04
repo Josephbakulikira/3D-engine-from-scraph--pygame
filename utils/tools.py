@@ -101,12 +101,7 @@ def translateValue(value, min1, max1, min2, max2):
 
 
 def SignedDist(pos, normal, p):
-    return (
-        normal.x * pos.x
-        + normal.y * pos.y
-        + normal.z * pos.z
-        - vector.dotProduct(normal, p)
-    )
+    return normal.x * pos.x + normal.y * pos.y + normal.z * pos.z - normal.dot(p)
 
 
 # TODO: there is way too much going on in this function, needs to be refactored

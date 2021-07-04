@@ -66,7 +66,7 @@ class Scene:
             origin = (projected.vertex1 + projected.vertex2 + projected.vertex3) / 3
             line1 = projected.vertex2 - projected.vertex1
             line2 = projected.vertex3 - projected.vertex1
-            normal = vector.crossProduct(line1, line2) * normals_length
+            normal = line1.cross(line2) * normals_length
             tools.DrawTriangle(
                 screen,
                 projected,

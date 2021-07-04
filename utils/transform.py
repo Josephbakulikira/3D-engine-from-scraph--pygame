@@ -19,9 +19,9 @@ def ProjectionMatrix(camera: Camera) -> matrix.Matrix:
 
 # TODO: what are the types of these args ? Vector3 or floats ?
 def PointAt(current, next, up) -> matrix.Matrix:
-    f = vector.Normalize(next - current)  # forward vector
-    u = vector.Normalize(up - f * (vector.dotProduct(up, f)))  # up vector
-    r = vector.crossProduct(u, f)  # right vector
+    f = (next - current).norm()  # forward vector
+    u = (up - f * up.dot(f)).norm()  # up vector
+    r = u.cross(f)  # right vector
     m = matrix.Matrix()
     m.val = [
         [r.x, r.y, r.z, 0.0],
