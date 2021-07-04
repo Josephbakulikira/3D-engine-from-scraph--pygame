@@ -5,7 +5,7 @@ import pygame
 
 
 class Camera:
-    def __init__(self, position, near, far, fov):
+    def __init__(self, position, near, far, fov, speed=0.1, rotation_speed=1.5):
         self.position = position
         self.near = near
         self.far = far
@@ -17,8 +17,8 @@ class Camera:
         self.up = vector.Vector3()
         self.transform = transform.identityMatrix()
         self.target = position
-        self.speed = 0.1
-        self.rotationSpeed = 1.5
+        self.speed = speed
+        self.rotationSpeed = rotation_speed
         self.temp = vector.Vector3()
 
     def HandleInput(self, dt):

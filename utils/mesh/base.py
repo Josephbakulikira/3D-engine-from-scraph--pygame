@@ -48,6 +48,7 @@ class Mesh:
         tris = spheres.IcosphereTriangles(color, subdivision, radius)
         return cls(tris, position)
 
+    # TODO: refactor this method, its way too long
     def update(
         self, screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0
     ):

@@ -10,8 +10,6 @@ from utils.vector import Vector3
 from utils.camera import Camera
 from utils.light import Light
 from utils.mesh.base import Mesh
-import utils.mesh.meshes as meshes
-import utils.mesh.spheres as spheres
 import utils.tools as tools
 from utils.world import Scene
 
@@ -24,30 +22,23 @@ pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
 
 # create mesh
-Deer = Mesh.from_file("./assets/deer.obj", (186, 135, 89))
+deer = Mesh.from_file("./assets/deer.obj", (186, 135, 89))
 teapot = Mesh.from_file("./assets/utahteapot.obj", (255, 255, 0))
 cube = Mesh.cube((240, 84, 84), Vector3(5, -2, 0))
 sphere = Mesh.icosphere((246, 131, 15), 2)
 torus = Mesh.from_file("./assets/torus.obj", (56, 147, 147), Vector3(-3, -2, 0))
 
 # create scene and the world
-scene = Scene()
-
-# add object you want to display into the world
-scene.world.append(torus)
-scene.world.append(sphere)
-scene.world.append(cube)
+scene = Scene(torus, sphere, cube)
 
 # camera setup
-camera = Camera(Vector3(0, 0, 0), 0.1, 1000.0, 75.0)
-camera.speed = 0.5
-camera.rotationSpeed = 0.8
+camera = Camera(Vector3(0, 0, 0), 0.1, 1000.0, 75.0, 0.5, 0.8)
 
 # light setup
 light = Light(Vector3(0.9, 0.9, -1))
 hue = 0
 
-angle = 0
+angle = 0.0
 moveLight = True
 run = True
 while run:

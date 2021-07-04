@@ -6,8 +6,8 @@ import pygame
 
 
 class Scene:
-    def __init__(self, world=[]):
-        self.world = world
+    def __init__(self, *meshes):
+        self.world = list(meshes)
 
     def update(
         self,
