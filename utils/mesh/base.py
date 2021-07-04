@@ -1,15 +1,15 @@
 from __future__ import annotations
+from typing import Optional
+from os import PathLike
+import pygame
 import utils.matrix as matrix
 import utils.transform as transform
 from utils.vector import Vector3
 from utils.triangle import Triangle
 from utils.tools import TriangleClipped, hsv_to_rgb, LoadMesh
 from constants import Width, Height, Zoffset, clipping, dim
-import pygame
-from os import PathLike
 import utils.mesh.meshes as meshes
 import utils.mesh.spheres as spheres
-from typing import Optional
 
 
 class Mesh:

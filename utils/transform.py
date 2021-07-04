@@ -1,6 +1,6 @@
+from math import cos, sin
 import constants
 import utils.vector as vector
-from math import cos, sin
 import utils.matrix as matrix
 from utils.camera import Camera
 

@@ -1,7 +1,7 @@
 from math import tan, pi
+import pygame
 import utils.vector as vector
 import utils.transform as transform
-import pygame
 
 
 class Camera:

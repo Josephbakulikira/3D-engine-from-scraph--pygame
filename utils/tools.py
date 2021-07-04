@@ -1,10 +1,10 @@
+from os import PathLike
+import colorsys
 import pygame
 import utils.vector as vector
 from utils.triangle import Triangle
 import constants
 import utils.mesh.point as point
-import colorsys
-from os import PathLike
 
 
 def hsv_to_rgb(h, s, v) -> tuple[int, int, int]:

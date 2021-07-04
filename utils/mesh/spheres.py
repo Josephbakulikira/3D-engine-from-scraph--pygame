@@ -1,6 +1,6 @@
+from math import sin, cos, pi, sqrt
 from utils.triangle import Triangle
 from utils.vector import Vector3
-from math import sin, cos, pi, sqrt
 
 
 def SphereTriangles(color, n_subdivision=10, radius=1):

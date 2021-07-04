@@ -1,8 +1,8 @@
+import pygame
 import utils.tools as tools
 import utils.vector as vector
 import utils.transform as transform
 import utils.matrix as matrix
-import pygame
 
 
 class Scene:

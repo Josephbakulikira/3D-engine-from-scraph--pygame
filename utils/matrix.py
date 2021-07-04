@@ -2,8 +2,8 @@
 standard operations, as well as other utility functions.
 """
 from __future__ import annotations
-from utils.vector import Vector3
 from copy import deepcopy
+from utils.vector import Vector3
 
 
 class Matrix:
