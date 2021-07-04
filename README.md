@@ -6,6 +6,7 @@
 ---
 ### Package Requirement
              PYGAME -> pip install pygame
+             COLORSYS -> pip install colorsys
 ---
 ### Bugs (unsolved issues)
     - The z sorting of triangles still has some noticeable issues
@@ -26,7 +27,7 @@
 ### Controls
               might work on a much better controls later but for now to move around the scene you can use
               'WASD' and "Arrows"
-              mouse control coming soon
+              The controls are weird , i'm gonna try to improve them
       
 ---
 ### parameters
@@ -42,7 +43,7 @@
 ---
 
 ### Camera clipping
-        it's still has a couple of issues when it comes to the boundary cliping , since it's only clip the faces
+        it's still has a couple of issues when it comes to the boundary clipping , since it's only clip the faces
         that are in front of the camera.
         
 ![clippingGIF](https://user-images.githubusercontent.com/48150537/121647190-bfc13880-cab3-11eb-8ee7-c0ee61f47849.gif)

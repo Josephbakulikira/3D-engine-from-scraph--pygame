@@ -5,6 +5,7 @@ import sys
 import pygame
 import constants
 from event import HandleEvent
+import utils.transform as transform
 from utils.vector import Vector3
 from utils.camera import Camera
 from utils.light import Light
@@ -41,15 +42,17 @@ hue = 0
 angle = 0.0
 moveLight = True
 run = True
+
 while run:
     screen.fill(constants.BackgroundColor)
     clock.tick(fps)
     dt = clock.tick(fps) / 100
     frameRate = clock.get_fps()
     pygame.display.set_caption(str(frameRate) + " fps")
-    camera.HandleInput(dt)
     run = HandleEvent(camera, dt)
     hue = 0
+    # handle input
+    camera.HandleInput(dt)
 
     if moveLight and light is not None:
         mx, my = pygame.mouse.get_pos()

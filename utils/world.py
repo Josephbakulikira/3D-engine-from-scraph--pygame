@@ -55,10 +55,12 @@ class Scene:
                 ChangingColor,
             )
 
+        # sort the triangles list based on the average of their z coordinate -> painters algorithm
         def Zsort(val):
             return (val.vertex1.z + val.vertex2.z + val.vertex3.z) / 3.0
 
         triangles.sort(key=Zsort)
+
         normals_length = 250
         normals = []
 
