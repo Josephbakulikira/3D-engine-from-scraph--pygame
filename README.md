@@ -6,6 +6,7 @@
 ---
 ### Package Requirement
              PYGAME -> pip install pygame
+             COLORSYS -> pip install colorsys
 ---
 ### Bugs (unsolved issues)
     - The z sorting of triangles still has some noticeable issues
