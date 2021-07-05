@@ -1,3 +1,4 @@
+from __future__ import annotations
 from constants import *
 from utils.vector import *
 from math import cos, sin
@@ -318,4 +319,8 @@ def QuickInverse(m):
     matrix.val[3][1] = -(m.val[3][0] * matrix.val[0][1] + m.val[3][1] * matrix.val[1][1] + m.val[3][2] * matrix.val[2][1])
     matrix.val[3][2] = -(m.val[3][0] * matrix.val[0][2] + m.val[3][1] * matrix.val[1][2] + m.val[3][2] * matrix.val[2][2])
     matrix.val[3][3] = 1.0
-    return matrix;
+    return matrix
+
+a=Matrix(2, 3)
+print(a)
+

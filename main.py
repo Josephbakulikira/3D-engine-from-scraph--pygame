@@ -16,7 +16,6 @@ from utils.mesh.point import *
 from utils.matrix import *
 from utils.tools import *
 from utils.world import Scene
-from utils.matrix import Matrix
 
 screen = pygame.display.set_mode(Size)
 clock = pygame.time.Clock()

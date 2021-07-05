@@ -1,18 +1,12 @@
-<<<<<<< HEAD
-from utils.matrix import *
-from utils.transform import *
-from utils.vector import Vector3, crossProduct,dotProduct, Normalize
-=======
 from __future__ import annotations
 from typing import Optional
 from os import PathLike
 import pygame
 import utils.matrix as matrix
-from utils.vector import Vector3
->>>>>>> 4f9de1a37b8d2bf9ad6687ebf21a62e1384b3ede
+from utils.vector import Vector3, Normalize, dotProduct, crossProduct
 from utils.triangle import Triangle
 from utils.tools import DrawTriangle, TriangleClipped, hsv2rgb
-from constants import Width, Height, Zoffset, clipping
+from constants import Width, Height, Zoffset, clipping, dim
 import pygame
 
 class Mesh:
@@ -20,12 +14,6 @@ class Mesh:
         self.triangles = []
         self.position = Vector3()
         self.color = (255, 255, 255)
-<<<<<<< HEAD
-        self.transform = identityMatrix()
-        self.translate = identityMatrix()
-
-    def update(self,screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0):
-=======
         self.transform = matrix.Matrix.identity()
         self.translate = matrix.Matrix.identity()
 
@@ -61,7 +49,6 @@ class Mesh:
     def update(
         self, screen, fill, wireframe, dt, camera, light, depth, clippingDebug, hue=0
     ):
->>>>>>> 4f9de1a37b8d2bf9ad6687ebf21a62e1384b3ede
         tris = []
         normals = []
 
@@ -70,9 +57,9 @@ class Mesh:
             projected.verticeColor = triangle.verticeColor
             transformed = Triangle()
 
-            transformed.vertex1 = multiplyMatrixVector(triangle.vertex1+self.position , self.transform)
-            transformed.vertex2 = multiplyMatrixVector(triangle.vertex2+self.position , self.transform)
-            transformed.vertex3 = multiplyMatrixVector(triangle.vertex3+self.position , self.transform)
+            transformed.vertex1 = matrix.multiplyMatrixVector(triangle.vertex1+self.position , self.transform)
+            transformed.vertex2 = matrix.multiplyMatrixVector(triangle.vertex2+self.position , self.transform)
+            transformed.vertex3 = matrix.multiplyMatrixVector(triangle.vertex3+self.position , self.transform)
 
             transformed.vertex1 += Vector3(0, 0, Zoffset)
             transformed.vertex2 += Vector3(0, 0, Zoffset)
@@ -96,9 +83,9 @@ class Mesh:
                 _light = max(dim, dotProduct(light.direction, normal) ) if light != None else 1
                 transformed.color = triangle.Shade(_light)
 
-                transformed.vertex1 = multiplyMatrixVector(transformed.vertex1, camera.viewMatrix )
-                transformed.vertex2 = multiplyMatrixVector(transformed.vertex2, camera.viewMatrix )
-                transformed.vertex3 = multiplyMatrixVector(transformed.vertex3, camera.viewMatrix )
+                transformed.vertex1 = matrix.multiplyMatrixVector(transformed.vertex1, camera.viewMatrix )
+                transformed.vertex2 = matrix.multiplyMatrixVector(transformed.vertex2, camera.viewMatrix )
+                transformed.vertex3 = matrix.multiplyMatrixVector(transformed.vertex3, camera.viewMatrix )
 
                 clipped = 0
                 clippedTriangles = [Triangle() for _ in range(2)]
@@ -107,9 +94,9 @@ class Mesh:
                 for i in range(clipped):
                     #print(clippedTriangles)
                     # project to 2D screen
-                    projected.vertex1 = multiplyMatrixVector(clippedTriangles[i].vertex1, ProjectionMatrix(camera))
-                    projected.vertex2 = multiplyMatrixVector(clippedTriangles[i].vertex2, ProjectionMatrix(camera))
-                    projected.vertex3 = multiplyMatrixVector(clippedTriangles[i].vertex3, ProjectionMatrix(camera))
+                    projected.vertex1 = matrix.multiplyMatrixVector(clippedTriangles[i].vertex1, camera.projection())
+                    projected.vertex2 = matrix.multiplyMatrixVector(clippedTriangles[i].vertex2, camera.projection())
+                    projected.vertex3 = matrix.multiplyMatrixVector(clippedTriangles[i].vertex3, camera.projection())
 
 
                     projected.color = clippedTriangles[i].color

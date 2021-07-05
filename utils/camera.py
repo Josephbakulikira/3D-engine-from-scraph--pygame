@@ -1,6 +1,6 @@
 from math import tan, pi
-from constants import *
-from utils.vector import *
+import constants 
+import utils.vector as vector
 from utils.transform import *
 from utils.matrix import *
 import pygame

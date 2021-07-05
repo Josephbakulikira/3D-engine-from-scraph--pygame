@@ -28,6 +28,17 @@ class Vector3:
             return Vector3(a.x / b.x, a.y / b.y, a.z / b.z)
         return Vector3(a.x / b, a.y / b, a.z / b)
 
+    def norm(self):
+        mg = sqrt( pow(self.x,2) + pow(self.y,2) + pow(self.z,2) )
+        if mg == 0:
+            self.x, self.y, self.z = 0, 0, 0
+        else:
+            self.x, self.y, self.z =  self.x/mg, self.y/mg, self.z/mg
+    
+    def dot(self, b):
+        return self.x * b.x + self.y * b.y + self.z * b.z
+    
+
     def toMatrix(self):
         return [[self.x, self.y, self.z, self.w]]
 
