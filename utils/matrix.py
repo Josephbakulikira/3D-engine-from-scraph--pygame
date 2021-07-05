@@ -321,6 +321,4 @@ def QuickInverse(m):
     matrix.val[3][3] = 1.0
     return matrix
 
-a=Matrix(2, 3)
-print(a)
 

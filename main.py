@@ -92,9 +92,22 @@ while run:
     )
 
     # display scene
-    scene.update(dt = dt, camera=camera, light=light, screen=screen, showAxis=True,
-                fill=True, wireframe=False, vertices=False, depth=True, clippingDebug=True,
-                showNormals=False, radius=9, verticeColor=False, wireframeColor=(255, 255, 255), ChangingColor=hue)
+    scene.update(
+        dt = dt, 
+        camera=camera, 
+        light=light, 
+        screen=screen, 
+        showAxis=True,
+        fill=True, 
+        wireframe=False, 
+        vertices=False, 
+        depth=True, 
+        clippingDebug=True,
+        showNormals=False, 
+        radius=9, 
+        verticeColor=False, 
+        wireframeColor=(255, 255, 255), 
+        ChangingColor=hue)
 
 
     pygame.display.flip()
