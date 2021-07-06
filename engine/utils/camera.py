@@ -1,10 +1,8 @@
 from math import tan, pi
 import constants 
 import utils.vector as vector
-from utils.transform import *
-from utils.matrix import *
-import pygame
-
+from utils.matrix import Matrix
+import constants
 
 
 class Camera:

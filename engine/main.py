@@ -5,7 +5,6 @@ import sys
 import pygame
 from constants import *
 from event import HandleEvent
-from utils.transform import *
 from utils.vector import Vector3
 from utils.camera import Camera
 from utils.light import Light
