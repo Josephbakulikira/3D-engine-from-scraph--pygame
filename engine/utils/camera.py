@@ -3,7 +3,7 @@ import constants
 import utils.vector as vector
 from utils.matrix import Matrix
 import constants
-
+import pygame
 
 class Camera:
     def __init__(self, position, near, far, fov):
@@ -20,7 +20,7 @@ class Camera:
         self.target = position
         self.speed = 0.1
         self.rotationSpeed = 1.5
-        self.temp = Vector3()
+        self.temp = vector.Vector3()
 
     def HandleInput(self, dt):
         keys = pygame.key.get_pressed()
