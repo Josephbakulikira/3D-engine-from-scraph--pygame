@@ -3,6 +3,7 @@
 
 import sys
 import pygame
+from pygame.locals import *
 from constants import *
 from event import HandleEvent
 from utils.vector import Vector3
@@ -16,10 +17,12 @@ from utils.matrix import *
 from utils.tools import *
 from utils.world import Scene
 
-screen = pygame.display.set_mode(Size)
+pygame.init()
+# screen = pygame.display.set_mode(Size)
+flags = DOUBLEBUF
+screen = pygame.display.set_mode(Size, flags, 16)
 clock = pygame.time.Clock()
 fps = 60
-
 #mouse setup
 pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
@@ -92,20 +95,20 @@ while run:
 
     # display scene
     scene.update(
-        dt = dt, 
-        camera=camera, 
-        light=light, 
-        screen=screen, 
+        dt = dt,
+        camera=camera,
+        light=light,
+        screen=screen,
         showAxis=True,
-        fill=True, 
-        wireframe=False, 
-        vertices=False, 
-        depth=True, 
+        fill=True,
+        wireframe=False,
+        vertices=False,
+        depth=True,
         clippingDebug=False,
-        showNormals=False, 
-        radius=9, 
-        verticeColor=False, 
-        wireframeColor=(255, 255, 255), 
+        showNormals=False,
+        radius=9,
+        verticeColor=False,
+        wireframeColor=(255, 255, 255),
         ChangingColor=hue)
 
 
