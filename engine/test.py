@@ -15,7 +15,7 @@ from utils.mesh.point import *
 from utils.matrix import *
 from utils.tools import *
 from utils.world import Scene
-
+from random import randint
 pygame.init()
 # screen = pygame.display.set_mode(Size)
 flags = DOUBLEBUF
@@ -27,33 +27,22 @@ pygame.mouse.get_rel()
 pygame.mouse.set_visible(True)
 a = pygame.event.set_grab(False)
 
-#create mesh
-Deer = Mesh()
-Deer.triangles = LoadMesh("../assets/deer.obj",(186, 135, 89)) # load mesh triangles
-
-teapot = Mesh()
-teapot.triangles = LoadMesh("../assets/utahteapot.obj", (255, 255, 0))
-
-cube = Mesh()
-cube.triangles = CubeTriangles((240,84,84))
-cube.position = Vector3(5, -2, 0)
-
-sphere = Mesh()
-sphere.triangles = IcosphereTriangles((246,131,15), 2)
-sphere.position = Vector3(0, 0, 0)
-
-torus = Mesh()
-torus.triangles = LoadMesh("../assets/torus.obj", (56,147,147))
-torus.position = Vector3(-3, -2, 0)
-
 # create scene and the world
+res = 3
 scene = Scene()
-#add object you want to display into the world
-scene.world.append(torus)
-scene.world.append(sphere)
-scene.world.append(cube)
-# scene.world.append(teapot)
-# scene.world.append(Deer)
+
+for x in range(res):
+    for y in range(res):
+        for z in range(res):
+            cube = Mesh()
+            s = 5
+            r = randint(10, 255)
+            g = randint(10, 255)
+            b = randint(10, 255)
+            cube.triangles = CubeTriangles((r, g, b),Vector3(x * s, y * s, z * s), s)
+            cube.position = Vector3(x * s, y * s, z * s)
+            cube.transform = Matrix.scaling(0.1)
+            scene.world.append(cube)
 
 #camera setup
 camera = Camera(Vector3(0, 0, 0), 0.1, 1000.0, 75.0)
@@ -86,11 +75,11 @@ while run:
         light = Light(Vector3(-_x, -_y, -1))
 
     # apply the transformation matrix here
-    torus.transform = Matrix.rotation_x(angle) @ Matrix.scaling(1.9)
-    cube.transform = Matrix.rotation_y(angle) @ Matrix.scaling(1.2)
-    sphere.transform = Matrix.rotation_x(angle) @ (
-        Matrix.rotation_y(angle) @ Matrix.scaling(1.4)
-    )
+    # torus.transform = Matrix.rotation_x(angle) @ Matrix.scaling(1.9)
+    # cube.transform = Matrix.rotation_y(angle) @ Matrix.scaling(1.2)
+    # sphere.transform = Matrix.rotation_x(angle) @ (
+    #     Matrix.rotation_y(angle) @ Matrix.scaling(1.4)
+    # )
 
     # display scene
     scene.update(
@@ -100,12 +89,12 @@ while run:
         screen=screen,
         showAxis=True,
         fill=True,
-        wireframe=False,
-        vertices=False,
+        wireframe=True,
+        vertices=True,
         depth=True,
         clippingDebug=False,
         showNormals=False,
-        radius=9,
+        radius=2,
         verticeColor=False,
         wireframeColor=(255, 255, 255),
         ChangingColor=hue)

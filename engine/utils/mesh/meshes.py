@@ -6,25 +6,25 @@ from math import sin, cos, pi
 def translate(value, min1, max1, min2, max2):
     return min2 + (max2 - min2) * ((value-min1)/(max1-min1))
 
-def CubeTriangles(color):
+def CubeTriangles(color, position=Vector3(), scale=1):
     return [
-    Triangle( Vector3(-1.0, -1.0, -1.0,), Vector3(-1.0, 1.0, -1.0), Vector3(1.0, 1.0, -1.0), color),
-    Triangle( Vector3(-1.0, -1.0, -1.0,), Vector3(1.0, 1.0, -1.0), Vector3(1.0, -1.0, -1.0), color),
+    Triangle( Vector3(-1.0, -1.0, -1.0) * scale + position, Vector3(-1.0, 1.0, -1.0) * scale + position, Vector3(1.0, 1.0, -1.0) * scale + position, color),
+    Triangle( Vector3(-1.0, -1.0, -1.0) * scale + position, Vector3(1.0, 1.0, -1.0) * scale + position, Vector3(1.0, -1.0, -1.0) * scale + position, color),
 
-    Triangle( Vector3(1.0, -1.0, -1.0), Vector3(1.0, 1.0, -1.0), Vector3(1.0, 1.0, 1.0), color),
-    Triangle( Vector3(1.0, -1.0, -1.0), Vector3(1.0, 1.0, 1.0), Vector3(1.0, -1.0, 1.0), color),
+    Triangle( Vector3(1.0, -1.0, -1.0) * scale + position, Vector3(1.0, 1.0, -1.0) * scale + position, Vector3(1.0, 1.0, 1.0) * scale + position, color),
+    Triangle( Vector3(1.0, -1.0, -1.0) * scale + position, Vector3(1.0, 1.0, 1.0) * scale + position, Vector3(1.0, -1.0, 1.0) * scale + position, color),
 
-    Triangle( Vector3(1.0, -1.0, 1.0), Vector3(1.0, 1.0, 1.0), Vector3(-1.0, 1.0, 1.0), color),
-    Triangle( Vector3(1.0, -1.0, 1.0), Vector3(-1.0, 1.0, 1.0), Vector3(-1.0, -1.0, 1.0), color),
+    Triangle( Vector3(1.0, -1.0, 1.0) * scale + position, Vector3(1.0, 1.0, 1.0) * scale + position, Vector3(-1.0, 1.0, 1.0) * scale + position, color),
+    Triangle( Vector3(1.0, -1.0, 1.0) * scale + position, Vector3(-1.0, 1.0, 1.0) * scale + position, Vector3(-1.0, -1.0, 1.0) * scale + position, color),
 
-    Triangle( Vector3(-1.0, -1.0, 1.0), Vector3(-1.0, 1.0, 1.0), Vector3(-1.0, 1.0, -1.0), color),
-    Triangle( Vector3(-1.0, -1.0, 1.0), Vector3(-1.0, 1.0, -1.0), Vector3(-1.0, -1.0, -1.0), color),
+    Triangle( Vector3(-1.0, -1.0, 1.0) * scale + position, Vector3(-1.0, 1.0, 1.0) * scale + position, Vector3(-1.0, 1.0, -1.0) * scale + position, color),
+    Triangle( Vector3(-1.0, -1.0, 1.0) * scale + position, Vector3(-1.0, 1.0, -1.0) * scale + position, Vector3(-1.0, -1.0, -1.0) * scale + position, color),
 
-    Triangle( Vector3(-1.0, 1.0, -1.0), Vector3(-1.0, 1.0, 1.0), Vector3(1.0, 1.0, 1.0), color),
-    Triangle( Vector3(-1.0, 1.0, -1.0), Vector3(1.0, 1.0, 1.0), Vector3(1.0, 1.0, -1.0), color),
+    Triangle( Vector3(-1.0, 1.0, -1.0) * scale + position, Vector3(-1.0, 1.0, 1.0) * scale + position, Vector3(1.0, 1.0, 1.0) * scale + position, color),
+    Triangle( Vector3(-1.0, 1.0, -1.0) * scale + position, Vector3(1.0, 1.0, 1.0) * scale + position, Vector3(1.0, 1.0, -1.0) * scale + position, color),
 
-    Triangle( Vector3(1.0, -1.0, 1.0), Vector3(-1.0, -1.0, 1.0), Vector3(-1.0, -1.0, -1.0), color),
-    Triangle( Vector3(1.0, -1.0, 1.0), Vector3(-1.0, -1.0, -1.0), Vector3(1.0, -1.0, -1.0), color),
+    Triangle( Vector3(1.0, -1.0, 1.0) * scale + position, Vector3(-1.0, -1.0, 1.0) * scale + position, Vector3(-1.0, -1.0, -1.0) * scale + position, color),
+    Triangle( Vector3(1.0, -1.0, 1.0) * scale + position, Vector3(-1.0, -1.0, -1.0) * scale + position, Vector3(1.0, -1.0, -1.0) * scale + position, color),
 ]
 
 

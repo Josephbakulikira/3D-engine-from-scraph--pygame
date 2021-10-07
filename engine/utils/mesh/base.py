@@ -10,13 +10,13 @@ from constants import Width, Height, Zoffset, clipping, dim
 import pygame
 
 class Mesh:
-    def __init__(self):
+    def __init__(self, position=Vector3(), scale=1):
         self.triangles = []
-        self.position = Vector3()
+        self.position = position
         self.color = (255, 255, 255)
         self.transform = matrix.Matrix.identity()
         self.translate = matrix.Matrix.identity()
-
+        self.scale = scale
     @classmethod
     def from_file(
         cls,
@@ -29,10 +29,11 @@ class Mesh:
 
     @classmethod
     def cube(
-        cls, color: tuple[int, int, int], position: Optional[Vector3] = None
+        cls, color: tuple[int, int, int], position: Optional[Vector3] = None, scale: optional[float] = 1
     ) -> Mesh:
-        tris = meshes.CubeTriangles(color)
-        return cls(tris, position)
+        print(scale)
+        tris = meshes.CubeTriangles(size, color)
+        return cls(tris, position, scale)
 
     @classmethod
     def icosphere(
