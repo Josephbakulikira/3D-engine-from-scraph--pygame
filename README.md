@@ -1,5 +1,7 @@
 # 3D ENGINE WITH PYTHON FROM SCRATCH
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S64434Q)
+
 Youtube Channel: https://www.youtube.com/c/Auctux [<img align="left" alt="auctux | YouTube" style="color: 'red'" width="26px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/youtube.svg" />]
 
 
